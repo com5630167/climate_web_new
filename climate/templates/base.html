@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>To-Do lists</title>
+        <link href="{% static 'autumn-daze/style2.css' %}" rel="stylesheet" />
+        {% block meta %}
+        {% endblock %}
+    </head>
+<body>
+  <div id="container">
+    <div id="top">
+      <br/>
+      <h1>ระบบวิซวลโลเซซันและวิเคราะห์ข้อมูลสภาพภูมิอากาศ </h1>
+      <h1>Multidimensional data climate change</h1>
+      <p>{% block header_text %}{% endblock %}<p><br/>
+    </div>
+    <!-- menu horizontal -->
+    <div class="container">
+      <ul id="navPyra">
+        {% block lnk %}
+        {% endblock %}
+      </ul>
+    </div>
+    <!-- head picture -->
+    <div id="banner"></div>
+    <!--div id="littlehead"-->
+      <p><span style="font-weight:bold; color:#B07E13;">You are here:</span>
+      <a href="/">Home</a>
+     {% block You_Are_Here %}{% endblock %}
+     </p>
+    <!-- content -->
+    <div id="content">
+      
+    {% block content %}
+    {% endblock %}
+     
+    </div>
+    {% block plot %}
+    {% endblock %}
+    <!-- foot -->
+    <div id="footer"> 
+      <a href="#">homepage</a> | 
+      <a href="mailto:denise@mitchinson.net">contact</a> |     
+      <a href="http://validator.w3.org/check?uri=referer">html</a> | 
+      <a href="http://jigsaw.w3.org/css-validator">css</a> | 
+      &copy; 2007 Anyone | Design by 
+      <a href="http://www.mitchinson.net"> www.mitchinson.net</a><br/>
+      This work is licensed under a 
+      <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>
+    </div>
+  </div>
+    </body>
+</html>

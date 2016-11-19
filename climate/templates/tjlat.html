@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% block meta %}
+	<title>Quick Start - Leaflet</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+
+{% endblock %}
+
+{% block lnk %}
+        <li><a href="../">Home</a></li>
+        <li><a href="../item_add">item_add</a></li>
+        <li><a class="active" href="/plot">Plot</a></li>
+        <li><a href="../">Services</a></li>
+        <li><a href="../order">Order</a></li>
+{% endblock %}
+
+{% block You_Are_Here %}
+&#187;
+<a href="/test">test</a>
+{% endblock %}
+{% block plot %}
+
+<div class="container_12">
+  <article class="grid_5">
+    <div class="page1-box3"> 
+    <p id="demo">Click the button to change the text in this paragraph.</p>
+
+  <div id="mapid" style="width: 500px; height: 400px;"></div>
+
+  <form acton=""method="POST">
+  {% csrf_token %}
+  Latitude:<input name="lat" id="txtLatitude" type="text" style="width:80px;" />
+  Longitude:<input name="lng" id="txtLongitude" type="text" style="width:80px;" />
+  <input Type="submit" name="submit" value="save" >
+  </form>
+    </div>
+  </article>
+
+  <article class="grid_6">
+    <div class="page1-box2">
+      <input type="hidden" id="myVar" name="variable" value="{{ lat }}">
+      <input type="hidden" id="myVar2" name="variable" value="{{ tem }}">
+      <div style="position:relative; width:500px; height:450px;">
+        <div class="jumbotron" style="position:absolute; right:0; width:100%; height:500px;">
+          <svg id="visualisation" width="900" height="500"></svg>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<script>
+        var dat = {{tem|safe}}
+	//var myVar1 = document.getElementById("myVar2").value;
+	var data = {{lat|safe}}
+        var max_t = Math.max.apply(Math, data);
+        var min_t = Math.min.apply(Math, data);
+        var lat_p = []
+       
+        //lat_p[0] = lat_t[0]
+        //lat_p[1] = lat_t[(lat_t.length)/2]
+        //lat_p[2] = lat_t[lat_t.length-1]
+        var dat = {{date|safe}}
+        
+        //document.getElementById("demo").innerHTML = Math.max.apply(Math, lat_t);
+        //document.getElementById("demo").innerHTML = data;
+
+        function InitChart() {
+			var margin = {top: 100, right: 100, bottom: 100, left: 100},
+			    width = 600 - margin.left - margin.right,
+			    height = 400 - margin.top - margin.bottom;
+
+			var x = d3.scale.linear()
+			    .domain([0, 12])
+			    .range([0, width]);
+
+			var y = d3.scale.linear()
+			    .domain([min_t, max_t])
+			    .range([height, 0]);
+		
+			var line = d3.svg.area()
+				.x(function(d,i) { 
+			
+						return x(i); 
+				})
+				.y(function(i) { 
+			
+						return y(i); 
+				})
+				.interpolate("basis");
+
+		        var yAxisLeft = d3.svg.axis()
+			    .scale(y)
+			    .ticks(4)
+			    .orient("left")
+                            .innerTickSize(-(width+10))
+			    .outerTickSize(0)
+			    .tickPadding(10);
+		
+			var xAxis = d3.svg.axis()
+			    .scale(x)
+			    .orient("bottom")
+                            .innerTickSize(-height)
+			    .outerTickSize(0)
+			    .tickPadding(10);
+
+                        var div = d3.select("#visualisation").append("div")	
+			    .attr("class", "tooltip")				
+			    .style("opacity", 0);
+
+			var svg = d3.select("#visualisation").append("svg")
+			    .attr("width", width + margin.left + margin.right)
+			    .attr("height", height + margin.top + margin.bottom)
+			    .append("g")
+			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                        svg.append("rect")
+			    .attr("width", width+10)
+			    .attr("height", height)
+			    .attr("fill", "#ffffe6");
+
+			svg.append("g")
+			    .attr("class", "y axis")
+			    .attr("transform", "translate(-25,0)")
+			    .call(yAxisLeft);
+
+			svg.append("g")
+			    .attr("class", "x axis")
+			    .attr("transform", "translate(0," + (height) + ")")
+                            .call(xAxis);
+
+			svg.append("path").attr("d", line(data));
+
+                      svg.append("text")
+			    .attr("x", -20 )
+			    .attr("y", -10 )
+                            .style("font-family", "sans-serif")
+                            .style("fill", "#000080")
+			    .style("text-anchor", "middle")
+			    .text("Temperature °C");
+
+                        svg.append("text")
+			    .attr("x", width+15 )
+			    .attr("y", height +5 )
+                            .style("font-family", "sans-serif")
+                            .style("fill", "#000080")
+			    .style("text-anchor", "middle")
+			    .text("Lats");
+
+			svg.append("text")
+			    .attr("x", width/2 )
+			    .attr("y", -40 )
+                            .style("fill", "#000033")
+			    .style("font-family", "sans-serif")
+                            .style("text-anchor", "middle")
+                            .attr("font-size", "15px")
+			    .text("Air temperature in "+dat);
+	
+		
+         }
+         InitChart();
+
+
+var mymap = L.map('mapid').setView([14.57, 105.83], 1);
+var Thai = {lat: 13.45, lng: 100.48};
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', 	{
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+	}).addTo(mymap);
+
+	L.marker([13.45, 100.48]).addTo(mymap)
+		.bindPopup("<b>ThaiLand</b><br />").openPopup();
+
+
+
+	var popup = L.popup();
+
+function myFunction() {
+    document.getElementById("demo").innerHTML = ""+latlng.toString();
+}
+
+	function onMapClick(e) {
+                document.getElementById("demo").innerHTML = e.latlng.toString();
+		var re = e.latlng.toString().split("(");
+ 		var re1 = re[1].split(")");
+                var re2 = re1[0].split(",");
+		document.getElementById("txtLatitude").value = re2[0];
+		document.getElementById("txtLongitude").value = re2[1];
+		popup
+			.setLatLng(e.latlng)
+			.setContent("You clicked the map at " + e.latlng.toString())
+			.openOn(mymap);
+                
+	}
+
+	mymap.on('click', onMapClick);
+
+</script>
+{% endblock %}
+
