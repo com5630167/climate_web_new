@@ -370,7 +370,8 @@ var HUD = function(gridMap) {
       coordFormat(coords[1]),
       '°)',
       ].join('');
-
+    // https://github.com/d3/d3-format
+    // ทศนิยม 4 หลักและ e ยกกำลัง
     if (cellValue !== undefined) {
       s += ' value: ' + d3.format('.4e')(cellValue);
     }

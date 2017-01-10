@@ -5,8 +5,7 @@ padding: 0;
 font: 90%  verdana, georgia, "Trebuchet MS",Arial, sans-serif;
 line-height: 1.8em;
 color: #000;
-background: #ccffe6;
-/*background: #fff url(images/slide-2.jpg) center repeat;*/
+background: #fff url(images/slide-2.jpg) center repeat;
 }
 			/* WRAP */
 #container {

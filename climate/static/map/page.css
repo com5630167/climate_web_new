@@ -1,0 +1,143 @@
+/* ******************* page ******************** */
+html { font-size: 100%; } 
+body {
+	font-size: 1.6rem;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	fill: #7A7A7A;
+    	margin: auto;
+    	width: 85%;
+    	padding: 10px;
+	}
+
+.title {
+      	font-size: 3.6rem;
+      	fill: #4F4F4F;
+      	font-weight: 300;
+        text-align: center;
+      	text-anchor: middle;
+    	}
+
+.subtitle {
+	font-size: 1.6rem;
+	fill: #AAAAAA;
+	font-weight: 300;
+	text-anchor: middle;
+	}
+
+.legendTitle,.mapTitle {
+	text-anchor: middle;
+	font-size: 2.2rem;
+	fill: #4F4F4F;
+	font-weight: 300;
+	}
+
+.axis path,
+.axis tick,
+.axis line {
+	fill: none;
+	stroke: none;
+}
+.center {
+    text-align:center
+}
+
+	svg {
+	  font: 10px sans-serif;
+	}
+	.area {
+	  fill: #ff99dd;
+	  clip-path: url(#clip);
+	}
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+	.grid-background {
+	  fill: #ddd;
+	}
+	.grid line,
+	.grid path {
+	  fill: none;
+	  stroke: #fff;
+	  shape-rendering: crispEdges;
+	}
+	.grid .minor.tick line {
+	  stroke-opacity: .5;
+	}
+	.brush .extent {
+	  stroke: #fff;
+	  fill-opacity: .125;
+	  shape-rendering: crispEdges;
+	  clip-path: url(#clip);
+	}
+	rect.pane {
+	  cursor: move;
+	  fill: none;
+	  pointer-events: all;
+	}
+	.tick line{
+	  opacity: 0.2;
+	}
+	.line{
+	   fill: none;
+	   stroke: #64B98C;
+	   stroke-width: 2px;
+	}
+        .button {
+           color: #595959;
+        }
+        .p {
+           color: #595959;
+        }
+/* ******************* Map ********************* */
+
+#map {
+    width: 500px;
+    height: 400px;
+    border: 1px solid black;
+    margin: 0 auto;
+    left: 10%; 
+    float:left;position:relative;
+    /*float: center; position: relative;*/
+    
+}
+.region {
+border-color:none;stroke: none;
+     fill-opacity: 1;}
+
+/* ******************* graph ******************* */
+.boxMap{margin-left:auto;margin-right:auto;width:50%;
+       background-color:#000000;
+}
+.section1 {
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    padding-top: 0px;
+  /*  background: #F4F4F4;*/
+   -webkit-border-radius: 20px 20px 20px 20px;
+   border-radius: 20px 20px 20px 20px;
+}
+.section2 {float:left;
+    width: 45%;
+    margin: 0 auto;
+    top:-30px; 
+    padding-top: 0px;
+   -webkit-border-radius: 20px 20px 20px 20px;
+   border-radius: 20px 20px 20px 20px;
+}
+.section3 {float:right;
+    width: 45%;
+    margin: 0 auto;
+    top:0px; 
+    padding-top: 0px;
+
+   -webkit-border-radius: 20px 20px 20px 20px;
+   border-radius: 20px 20px 20px 20px;
+}
+.boxGrp{margin-left:auto;margin-right:auto;width:100%;}
+.boxMap,.boxGrp{display:inline;float:left;position:relative;margin-left:5px;margin-right:5px;}
+

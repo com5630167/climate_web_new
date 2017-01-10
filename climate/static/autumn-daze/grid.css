@@ -1,0 +1,141 @@
+body {
+   position: relative;
+   background: #ffb744 url(../autumn-daze/images/bg-pattern.jpg);
+   font-family: "Times New Roman", Times, serif;
+   color:#FFFFFF;
+}
+.navbar {
+   background-color:#206040;
+   background-image: none;
+   border:none;
+   height: 50px;
+
+}
+.navbar-toggle .icon-bar {
+   display: block;
+   width: 22px;
+   height: 5px;
+   background-color: #F4F4F4;
+   border-radius: 1px;
+   text-shadow: black 0.1em 0.1em 0.2em;
+   border:none;
+}
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+   width: 80%;
+   margin: auto;
+}
+#section1 {
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    padding-top: 0px;
+    background: #F4F4F4;
+   -webkit-border-radius: 20px 20px 20px 20px;
+   border-radius: 20px 20px 20px 20px;
+}
+#lat {
+   border:0; 
+   color:#330000; 
+   font-weight:bold; 
+   position:relative; 
+   width:50px; 
+   left: 70%; 
+   top: -36px;
+   border-radius: 5px;
+}
+#lat2 {
+   border:0; 
+   color:#330000; 
+   font-weight:bold; 
+   position:relative; 
+   width:50px; 
+   left: 70%; 
+   top: -36px;
+   border-radius: 5px;
+}
+#lable_lon {
+   color:#4d4d4d; position:relative; left: 52%; top: -5px;
+   border-radius: 5px;
+}
+#lable_lat {
+   color:#4d4d4d; position:relative; left: 70%; top: -40px;
+   border-radius: 5px;
+}
+#lable_save {
+   color:#4d4d4d; position:relative; left: 87%; top: -75px;
+   border-radius: 5px;
+}
+#lon {
+   border:0; color:#330000; position:relative; top: -1px; left: 52%; width:55px; font-weight:bold;
+   border-radius: 5px;
+}
+#lon2 {
+   border:0; color:#330000; position:relative; top: -1px; left: 52%; width:55px; font-weight:bold;
+   border-radius: 5px;
+}
+#submit {
+   font-weight:bold; position:relative;  width:50px; left: 87%; top: -75px; border-radius: 5px; border:2px solid #d6d6c2;
+}
+#slider-3 {
+   background-color:#ffffe6;
+   position:relative;
+   left: -13px; 
+   width:40%; 
+   height:7px; 
+   top: 10px; 
+   border:1px solid #8a8a5c;
+   color:#ffffe6;
+}
+#slider-4 {
+   position:relative;
+   left: 42%; 
+   top: 20px; 
+   width:7px; 
+   height:150px; 
+   border:1px solid #8a8a5c;
+   color:#ffffe6;
+}
+#tool_area {
+   position:relative; left:45%; width:660px; height:50px; top:-570px; border:none;
+}
+#tool_area2 {
+   position:relative; left: 10%; width:90%; top:2%; 
+   border-radius: 5px; color:#330000; 
+   font-weight:bold; 
+}
+
+#chart{
+   position:relative; left: 46%; top:-380px;
+}
+#map_p {
+   background-color:#ffffe6; top: -70px; border:1px solid #d6d6c2;color:#ffffe6;
+   border-radius: 5px;
+    width: 500px;
+    height: 400px;
+    border: 1px solid black;
+    margin: 0 auto;
+    left: -30px; 
+    float:left;position:relative;
+}  
+#map {
+   background-color:#ffffe6; position:relative; top:-310px; left: 0%; width:47%; height:300px; border:1px solid #d6d6c2;
+   border-radius: 5px;
+}
+#map2 {
+   background-color:#ffffe6; position:relative; left: 550px; top:-610px; width:47%; height:300px; border:1px solid #d6d6c2;
+   border-radius: 5px;
+}
+#map3 {
+   background-color:#ffffe6; position:relative; left: 50%; top:-450px; width:47%; height:80px; border:1px solid #d6d6c2;
+   border-radius: 5px; color:#330000; 
+   font-weight:bold; font-size: 7;
+}
+.boxMap{margin-left:auto;margin-right:auto;width:50%;
+       background-color:#000000;
+}
+.boxGrp{margin-left:auto;margin-right:auto;width:100%;}
+.boxMap,.boxGrp{display:inline;float:left;position:relative;margin-left:5px;margin-right:5px;}
+
+
+

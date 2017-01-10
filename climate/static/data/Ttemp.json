@@ -1,0 +1,2 @@
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"CHA_NE":"Bangkok"},"geometry":{"type":"Polygon","coordinates":[[[89.49,-14.81],[89.49,-14.6],[89.72,-14.6],[89.72,-14.81],[89.49,-14.81]]]}},{"type":"Feature","properties":{"CHA_NE":"f"},"geometry":{"type":"Polygon","coordinates":[[[89.72,-14.81],[89.72,-14.6],[89.94,-14.6],[89.94,-14.81],[89.72,-14.81]]]}}
+]}
