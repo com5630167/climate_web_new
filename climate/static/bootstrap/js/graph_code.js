@@ -1,322 +1,3 @@
-<html lang="en">
-<head>
-{% load staticfiles %}
-  <meta charset="utf-8">
-  <title>Climate Change</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-responsive.min.css' %}">
-  <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  
-
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/page.css' %}" />
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <!--script src="http://code.jquery.com/jquery-2.1.4.min.js"></script-->
-  <script src="{% static 'node_modules/topojson/node_modules/d3/d3.js' %}"></script>
-  <script src="{% static 'node_modules/d3-geo-projection/d3.geo.projection.js' %}"></script>
-  <script src="{% static 'node_modules/topojson/build/topojson.js' %}"></script>
-
-  <style type="text/css">  
-        svg {
-          font: 10px sans-serif;
-        }
-        .area {
-          fill: #ff99dd;
-          clip-path: url(#clip);
-        }
-        .axis path,
-        .axis line {
-          fill: none;
-          stroke: #000;
-          shape-rendering: crispEdges;
-        }
-        .grid-background {
-          fill: #ddd;
-        }
-        .grid line,
-        .grid path {
-          fill: none;
-          stroke: #fff;
-          shape-rendering: crispEdges;
-        }
-        .grid .minor.tick line {
-          stroke-opacity: .5;
-        }
-        .brush .extent {
-          stroke: #fff;
-          fill-opacity: .125;
-          shape-rendering: crispEdges;
-          clip-path: url(#clip);
-        }
-        rect.pane {
-          cursor: move;
-          fill: none;
-          pointer-events: all;
-        }
-        .tick line{
-          opacity: 0.2;
-        }
-        .line{
-           fill: none;
-           stroke: #64B98C;
-           stroke-width: 2px;
-        }
-        .button {
-           color: #595959;
-        }
-        .p {
-           color: #595959;
-        }
-              
-           
-  </style>
-</head>
-<body>
-
-    <ul class="nav nav-tabs" id = "tab">
-        <li class="active">
-            <a href="#">Home</a>
-        </li>
-        <li>
-            <a href="#">Page2</a>
-        </li>
-        <li>
-            <a href="#">Page3</a>
-        </li>
-    </ul>
-
-   
-
-    <div id="section1" class="container-fluid">
-      <div class="row-fluid">
-        <!--div class="span2" id = "slider-3"></div-->
-        <div class="span1" id = "map_p"></div>
-
-        <!--div class="span3" id = "slider-4"></div-->
-        <div class="span4" id = "map"></div>
-        <div class="span5" id = "map2"></div>
-
-        <div class="span10" id = "tool">
-            <form acton=""method="POST">
-            {% csrf_token %}
-            <p>
-                 <label for="lon" id="lable_lon">lon range:</label>
-                 <input name="lon1" type="text" id="lon">
-                 <input name="lon2" type="text" id="lon2">
-            </p>
-            <p>
-                 <label for="lat" id="lable_lat">
-                  lat range:</label>
-                 <input name="lat1" type="text" id="lat">
-                 <input name="lat2" type="text" id="lat2">
-            </p>
-            <input Type="submit" name="submit" id="submit" value="save" class="button">
-            </form>
-
-           <div class="span9" id="tool_area2">
-                 <label for="vars" id="lable_vars">variable</label>
-                 <select class="selectpicker"id="vars" style="color:gray">
-                    <option value="1">Temperature</option>
-                    <option value="2">Precipitation </option>
-                 </select>
-                 <label for="cindex" id="lable_index">critical index</label>
-                 <select id="cindex" style="color:gray">
-                    <option value="su">SU</option>
-                    <option value="fd">FD</option>
-                    <option value="id">ID</option>
-                    <option value="tr">TR</option>
-                    <option value="gsl">GSL</option>
-                    <option value="wsdi">WSDI</option>
-                    <option value="csdi">CSDI</option>
-                    <option value="dtr">DTR</option>
-                    <option value="txx">Txx</option>
-                    <option value="tnx">Tnx</option>
-                    <option value="txn">Txn</option>
-                    <option value="tnn">Tnn</option>
-                    <option value="tn10p">Tn10p</option>
-                    <option value="tx10p">Tx10p</option>
-                    <option value="tn90p">Tn90p</option>
-                    <option value="tx90p">Tx90p</option>
-                    <option value="pre">-----Precip-----</option>
-                    <option value="rx1day">Rx1day</option>
-                    <option value="rx5day">Rx5day</option>
-                    <option value="sdii">SDII</option>
-                    <option value="r10mm">R10mm</option>
-                    <option value="r20mm">R20mm</option>
-                    <option value="rnnmm">Rnnmm</option>
-                    <option value="cdd">CDD</option>
-                    <option value="cwd">CWD</option>
-                    <option value="r95ptot">R95ptot</option>
-                    <option value="r99ptot">R99ptot</option>
-                    <option value="prcptot">Prcptot</option>
-                  </select>
-                   <label for="map3" id="lable_map3">Years</label>
-                   <div class="span11" id = "map3"></div>
-                  
-           </div>
-
-           
-        </div>
-       
-        <div class="span6" id = "slider-4"></div>
-        <div id = "slider-3"></div>
-       
-
-      </div>
-    </div>
- <script type="text/javascript">
-    //------------Select lat lng ---------------
-         var lon = {{lon|safe}}
-         var lat = {{lat|safe}}
-         var lon1 = {{lon1_g|safe}}
-         var lon2 = {{lon2_g|safe}}
-         var lat1 = {{lat1_g|safe}}
-         var lat2 = {{lat2_g|safe}}
-         val_cut = []
-        //------------Avg year---------------
-           var tem_avg = {{dat|safe}}
-           var pre_avg = {{per_y|safe}}
-        //------------min year---------------
-           var tem_min = {{min_t|safe}}
-           var pre_min = {{min_p|safe}}
-        //------------max year---------------
-           var tem_max = {{max_t|safe}}
-           var pre_max = {{max_p|safe}}
-        //------------Climdex-----------------
-           var txx = {{TXX|safe}}
-           var tnx = {{TNX|safe}}
-           var txn = {{TXN|safe}}
-           var tnn = {{TNN|safe}}
-           var tn10p = {{Tn10p|safe}}
-           var tx10p = {{Tx10p|safe}}
-           var tn90p = {{Tn90p|safe}}
-           var tx90p = {{Tx90p|safe}}
-           var rx1day = {{Rx1day|safe}}
-           var rx5day = {{Rx5day|safe}}
-
-           var su = {{SU|safe}}
-           var fd = {{FD|safe}}
-           var id = {{ID|safe}}
-           var tr = {{TR|safe}}
-           var gsl = {{GSL|safe}}
-           var wsdi = {{WSDI|safe}}
-           var csdi = {{CSDI|safe}}
-           var dtr = {{DTR|safe}}
-           var sdii = {{SDII|safe}}
-           var r10mm = {{R10mm|safe}}
-           var r20mm = {{R20mm|safe}}
-           var rnnmm = {{Rnnmm|safe}}
-           var cdd = {{CDD|safe}}
-           var cwd = {{CWD|safe}}
-           var r95ptot = {{R95ptot|safe}}
-           var r99ptot = {{R99ptot|safe}}
-           var prcptot = {{Prcptot|safe}}
-
- ///////////////////////////////////////////////////////////////////////////
-//////////////////// Funtuon Make Map Carto and Layer /////////////////////
-///////////////////////////////////////////////////////////////////////////
-function makeBaseMaps() {
-
-    indColor = 0;
-    IndexLayer = [];
-    labelname = "TempMax";
-    base = [0,1,2];
-    IndexState = $( "#index" ).val();
-
-    mapP = d3.carto.map();
-    d3.select("#map_p").call(mapP);
-    mapP.centerOn([114,8],"latlong");
-    mapP.setScale(3);
-
-
-    SelectIndex(IndexState)
-    createLayer(indState,labelname,indColor,base[0]);
-    //map.addCartoLayer(wcLayer).addCartoLayer(TemperatureMax);
-
-    //createLayer(indState,labelname,indColor,base[1]);
-    mapP.refresh();
-    //legenColor();
-    IndexState = 0;
-
-//d3.select("#buttons").append("button").html("Delete a Random Data Layer").on("click", deleteRandomDataLayer)
-//d3.select("vars").html(this.value).on("click", deleteRandomDataLayer)
-
-}
-///////////////////////////////////////////////////////////////////////////
-//////////////////// Function Select Index ////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-function updatDataLayer(){
-    //d3.select("#map").selectAll("svg").remove();
-   // var colorLayer;
-   // colorLayer.
-
-}
-
-///////////////////////////////////////////////////////////////////////////
-//////////////////// Function Select Index ////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-function SelectIndex(IndexState){
-    if (IndexLayer.length > 0){
-        mapP.deleteCartoLayer(newSelectIndexLayer);
-        mapP.refresh();
-    };
-    if (IndexState=='avg'){
-        indState = "../static/data/geoTsPrAvg.json";
-        labelname = "TempAvg";
-    }else if(IndexState=='min'){
-        indState = "../static/data/geoTsPrMin.json";
-        labelname = "TempMin";
-    }else if(IndexState=='max'){
-        indState = "../static/data/geoTsPrMax.json";
-        labelname = "TempMax";
-    }
-    createLayer(indState,labelname,0,1);
-};
-
-function deleteLayer(layername){
-    mapP.deleteCartoLayer(layername);
-    mapP.refresh();
-}
-
-///////////////////////////////////////////////////////////////////////////
-//////////////////// Function Create Layear ///////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-function createLayer(file,lablename,ind,base){
-   var regionColor = d3.scale.quantize().domain([-10,50]).range(coloursRainbow)
-   if (base==0){
-      waterlayer = d3.carto.layer.tile();
-      waterlayer
-       .tileType("cartodb")
-       .path("light_all")
-       .label("Base")
-       .visibility(true)
-      mapP.addCartoLayer(waterlayer);
-    }else if(base==1){
-      newSelectIndexLayer = d3.carto.layer.geojson();
-      newSelectIndexLayer
-       .path(file)
-       .renderMode("canvas")
-       .label(lablename)
-       .cssClass("region")
-       .clickableFeatures(true)
-       .markerColor(function(d) {return regionColor(d.properties.ts[ind])})
-       //.on("load", colorByGDP)
-       .visibility(true);
-      mapP.addCartoLayer(newSelectIndexLayer);
-      IndexLayer.push(newSelectIndexLayer);
-    };  
-
-    function colorByGDP() {
-      d3.selectAll("path.region").style("fill", function(d) {return regionColor(d.properties.ts[ind])})
-    }
-};
 ///////////////////////////////////////////////////////////////////////////
 //////////////////// Plot Graph Average Max Min ///////////////////////////
 /////////////////////////////////////////////////////////////////////////// 
@@ -408,18 +89,16 @@ function createLayer(file,lablename,ind,base){
                $( "#lat2" ).val($( "#slider-4" ).slider( "values", 1 ) );
          });
          var customTimeFormat = d3.time.format.multi([
-            [".%L", function(d) { return d.getMilliseconds(); }],
-            [":%S", function(d) { return d.getSeconds(); }],
-            ["%I:%M", function(d) { return d.getMinutes(); }],
-            ["%I %p", function(d) { return d.getHours(); }],
-            ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
-            ["%b %d", function(d) { return d.getDate() != 1; }],
-            ["%b", function(d) { return d.getMonth(); }],
-            ["%Y", function() { return true; }]
+        	  [".%L", function(d) { return d.getMilliseconds(); }],
+        	  [":%S", function(d) { return d.getSeconds(); }],
+        	  ["%I:%M", function(d) { return d.getMinutes(); }],
+        	  ["%I %p", function(d) { return d.getHours(); }],
+        	  ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
+        	  ["%b %d", function(d) { return d.getDate() != 1; }],
+        	  ["%b", function(d) { return d.getMonth(); }],
+        	  ["%Y", function() { return true; }]
         ]);
         function interac_chart(data_plot,name,ind) {
-           var grap_2 = document.getElementById( "map2" );
-           grap_2.style.backgroundColor = "#ffffe6";
            var parseDate = d3.time.format("%Y-%b-%d").parse;
            
             var data = data_plot.map(function(d) {
@@ -433,382 +112,9 @@ function createLayer(file,lablename,ind,base){
            //var nim ;
            var margin = {top: 30, right: 40, bottom: 110, left: 40},
             margin2 = {top: 3, right: 40, bottom: 20, left: 40},
-            width = 485 - margin.left - margin.right,
+            width = 540 - margin.left - margin.right,
             width2 = 540- margin2.left - margin2.right,
-            height = 370 - margin.top - margin.bottom,
-            height2 = 40 - margin2.top - margin2.bottom;
-
-           var x = d3.time.scale().range([0, width]),
-            x2 = d3.time.scale()
-            .domain(d3.extent(data, function(d) { return d.date; }))
-            .range([0, width]);
-
-           var y = d3.scale.linear().range([height, 0]),
-               y2 = d3.scale.linear().range([height2, 0]);
-           var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(customTimeFormat),
-               xAxis2 = d3.svg.axis().scale(x2).orient("bottom");
-           var yAxis = d3.svg.axis().scale(y).orient("left");
-            
-           var brush = d3.svg.brush()
-            .x(x2)
-            .extent(d3.extent(data, function(d) { return d.date; }))
-            .on("brushend", brushended);
-            //.on("brushend", brusher2);
-
-           var area = d3.svg.area()
-            .interpolate("monotone")
-            .x(function(d) { return x(d.date); })
-            .y0(height)
-            .y1(function(d) { return y(d.close); });
-
-           var area2 = d3.svg.area()
-            .interpolate("monotone")
-            .x(function(d) { return x2(d.date); })
-            .y0(height2)
-            .y1(function(d) { return y2(d.close); });
-
-           var svg = d3.select("#map").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom);
-
-           var svg2 = d3.select("#map3").append("svg")
-            .attr("width", width2 + margin2.left + margin2.right)
-            .attr("height", height2 + margin2.top + margin2.bottom);
-            
-          svg.append("defs").append("clipPath")
-             .attr("id", "clip")
-             .append("rect")
-             .attr("width", width)
-             .attr("height", height);
-           
-          var focus = svg.append("g")
-             .attr("class", "focus")
-             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-           
-          var context = svg2.append("g")
-             .attr("class", "context")
-             .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
-          
-
-           var zoom = d3.behavior.zoom().on("zoom", draw);
-
-           var rect = svg.append("svg:rect")
-              .attr("class", "pane")
-              .attr("width", width)
-              .attr("height", height)
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-              .call(zoom);
-            
-           x.domain(d3.extent(data, function(d) { return d.date; }));
-           y.domain(d3.extent(data, function(d) { return d.close; }));
-           x2.domain(x.domain());
-           y2.domain(y.domain());
-
-           //zoom.x(x);
-            focus.append("path")
-              .datum(data)
-              .attr("class", "area")
-              .attr("d", area);
-            focus.append("g")
-               .attr("class", "x axis")
-               .attr("transform", "translate(0," + height + ")")
-               .call(xAxis);
-            focus.append("g")
-               .attr("class", "y axis")
-               .call(yAxis);
-            focus.append("text")
-               .attr("transform", "rotate(-90)")
-               .attr("x", -(height/2))
-               .attr("y",-30 )
-               .style("font-family", "sans-serif")
-               .style("fill", "#e60000")
-               .style("text-anchor", "middle")
-               .text(name);
-            focus.append("text")
-               .attr("x", width+20)
-               .attr("y", height+5 )
-               .style("font-family", "sans-serif")
-               .style("fill", "#e60000")
-               .style("text-anchor", "middle")
-               .text("years");
-
-            focus.append("text")
-               .attr("x", (width/2) )
-               .attr("y", -10 )
-               .style("fill", "#000033")
-               .style("font-family", "sans-serif")
-               .style("text-anchor", "middle")
-               .attr("font-size", "13px")
-               .text(ind);
-
-
-           context.append("g")
-            .attr("class", "x grid")
-            .attr("transform", "translate(0," + height2 + ")")
-            .call(d3.svg.axis()
-                .scale(x2)
-                .orient("bottom")
-                .ticks(d3.time.months, 6)
-                .tickSize(-height2)
-                .tickFormat(""))
-            .selectAll(".tick")
-            .classed("minor", function(d) { return d.getHours(); });
-         
-           context.append("path")
-              .datum(data)
-              .attr("class", "area")
-              .attr("d", area2);
-
-           context.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height2 + ")")
-            .call(d3.svg.axis()
-              .scale(x2)
-              .orient("bottom")
-              .ticks(d3.time.years,10)
-              .tickPadding(0))
-            .selectAll("text")
-            .attr("x", 6)
-            .style("text-anchor", null)
-            .call(xAxis2);
-
-           context.append("g")
-            .attr("class", "brush")
-            .call(brush)
-            .call(brush.event)
-            .selectAll("rect")
-            .attr("height", height2);
-          
-          function brushended() {
-           
-            var extent0 = brush.extent(),
-                extent1 = extent0.map(d3.time.year.round);
-                cal_year(extent1,data_plot,ind,name);
-         
-            if (!d3.event.sourceEvent){
-                cal_year(extent1,data_plot,ind,name);
-              /*focus.append("text")
-               .attr("x", (width/2) )
-               .attr("y", -10 )
-               .style("fill", "#000033")
-               .style("font-family", "sans-serif")
-               .style("text-anchor", "middle")
-               .attr("font-size", "13px")
-               .text(ind+" in"+extent1[0].getFullYear()+"-"+extent1[1].getFullYear());*/
-             
-          return;
-            } // only transition after input
-
-            // if empty when rounded, use floor & ceil instead
-            if (extent1[0] >= extent1[1]) {
-                extent1[0] = d3.time.year.floor(extent0[0]);
-                extent1[1] = d3.time.year.ceil(extent0[1]);
-             }
-            x.domain(brush.empty() ? x2.domain() : brush.extent());
-            
-            d3.select(this).transition()
-              .call(brush.extent(extent1))
-              .call(brush.event)
-              .call(endAll, function () {
-               
-              });
-             
-            zoom.x(x);
-          }
-
-          function endAll (transition, callback) {
-            var n;
-
-            if (transition.empty()) {
-                callback();
-            }
-            else {
-                n = transition.size();
-                transition.each("end", function () {
-                    n--;
-                    focus.select(".x.axis").call(xAxis);
-                    if (n === 0) {
-                        focus.select(".area").attr("d", area);
-                        callback();
-                    }
-                });
-            }
-          }
-          function draw() {
-          }
-          
-        }
-        function cal_year(rang_year,data,ind,name_var) {
-             var parseD = d3.time.format("%Y-%b-%d").parse;
-             //document.getElementById("demo").innerHTML = rang_year[0].getFullYear()+","+rang_year[1].getFullYear();
-             start = rang_year[0].getFullYear();
-             end = rang_year[1].getFullYear();   
-             //document.getElementById("demo").innerHTML = data[0];
-             var year = [];
-             var val = [];
-             var year2 = [];
-                  //var mss = data[0];
-              data.forEach(function(d,i) {
-                  year[i] = parseD(d[0]).getFullYear();
-                  val[i] = d[1];
-                  year2[i] = d[0];
-              });
-              
-              e_year = end - start;
-              val_cut = [];
-              dat_cut = [];
-              for(var i = 0;i<val.length;i++){
-                  if(year[i]>=start&&year[i]<end){
-                     val_cut.push(val[i-1]);//start index 0
-                      // val_cut.push(val[i]);//start index 1
-                     dat_cut.push(year2[i-1]);
-                    
-                  }
-              }
-               for(var i = 0;i<val.length;i++){
-                  if(year[i]>=start&&year[i]<end){
-                     val_cut.push(val[i-1]);//start index 0
-                      // val_cut.push(val[i]);//start index 1
-                     dat_cut.push(year2[i-1]);
-                    
-                  }
-              }
-              //------------------------------------------------------
-              val_sum = [];
-              for(var j=0;j<val_cut.length;j++){
-                   val_cut[j] = val_cut[j] ? val_cut[j] : 0.00;
-              }
-              for(var j=0;j<12;j++){
-                   val_sum[j] = 0;
-              }
-              k = 0;
-              count = 0;
-              for(var i = 0;i<e_year;i++){
-                   for(var j=0;j<12;j++){
-                        val_sum[j] = val_sum[j]+val_cut[j+count];
-                   }
-                   k = k+1;
-                   count = 12*k;
-               }
-              val_avg = [];
-              //----------------------Calculate------------------------------
-              for(var j=0;j<12;j++){
-                    val_avg[j] = val_sum[j]/e_year;
-              }
-              
-              //----------------------append---------------------------
-              var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-              var data_pg = new Array(11);
-              for(var i = 0;i<12;i++){
-                 data_pg[i] = new Array(1);
-                 for(var j=0;j<2;j++){
-                      if(j==0){
-                           data_pg[i][j] = start+"-"+month[i];// 
-                       }else if(j==1){
-                           data_pg[i][j] = val_avg[i];
-                       }
-                 
-                 }
-              }
-             //--------------------Call Plot Graph--------------------
-             //document.getElementById("demo").innerHTML = data_pg;
-             d3.select("#map2").selectAll("svg").remove(); 
-             //document.getElementById("demo").innerHTML = da[[0]];
-             int_chart(data_pg,name_var,ind,start+"-"+(end-1));
-        }
-        function int_chart(mon_plot,name,ind,rang_name) {
-            //d3.selectAll("svg > *").remove();
-            var margin3 = {top: 30, right: 40, bottom: 110, left: 50},
-            width3 = 485 - margin3.left - margin3.right,
-            height3 = 370 - margin3.top - margin3.bottom;
-            var parseD = d3.time.format("%Y-%b").parse;
-            var x3 = d3.time.scale().range([0, width3])
-            var y3 = d3.scale.linear().range([height3, 0]);
-            var xAxis3 = d3.svg.axis().scale(x3).orient("bottom").tickFormat(customTimeFormat);
-            var yAxis3 = d3.svg.axis().scale(y3).orient("left");
-            var line = d3.svg.line()
-            .interpolate("basis")
-            .x(function(d) { return x3(d.date); })
-            .y(function(d) { return y3(d.close); });
-            var svg = d3.select("#map2").append("svg")
-             .attr("width", width3 + margin3.left + margin3.right)
-             .attr("height", height3 + margin3.top + margin3.bottom)
-             .append("g")
-             .attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
-            svg.append("rect")
-             .attr("width", width3)
-             .attr("height", height3)
-             .attr("fill", "#f5f5f0");
-           
-            var data3 = mon_plot.map(function(d) {
-               //document.getElementById("demo").innerHTML = d[0];
-               return {
-                  date: parseD(d[0]),
-                  close: d[1]
-               };
-              
-             });
-             
-             x3.domain(d3.extent(data3, function(d) { return d.date; }));
-             y3.domain(d3.extent(data3, function(d) { return d.close; }));
-         
-            svg.append("path")
-              .datum(data3) 
-              .attr("class", "line")
-              .attr("d", line);
-            svg.append("g")
-               .attr("class", "x axis")
-               .attr("transform", "translate(0," + height3 + ")")
-               .call(xAxis3);
-            svg.append("g")
-               .attr("class", "y axis")
-               .call(yAxis3);
-            svg.append("text")
-               .attr("transform", "rotate(-90)")
-               .attr("x", -(height3/2))
-               .attr("y",-35 )
-               .style("font-family", "sans-serif")
-               .style("fill", "#e60000")
-               .style("text-anchor", "middle")
-               .text(name);
-            svg.append("text")
-               .attr("x", width3+20)
-               .attr("y", height3+5 )
-               .style("font-family", "sans-serif")
-               .style("fill", "#e60000")
-               .style("text-anchor", "middle")
-               .text("month");
-            svg.append("text")
-               .attr("x", width3/2 )
-               .attr("y", -10 )
-               .style("fill", "#000033")
-               .style("font-family", "sans-serif")
-               .style("text-anchor", "middle")
-               .attr("font-size", "11px")
-               .text(ind+" in Jan-Dec of "+rang_name);
-        }
-        
-        function chart_clim(data_plot,name,ind) {
-            var grap_2 = document.getElementById( "map2" );
-            grap_2.style.backgroundColor = "#F4F4F4";
-            grap_2.style.border = "none";
-
-            var parseDate = d3.time.format("%Y").parse;
-           
-            var data = data_plot.map(function(d) {
-               return {
-                  date: parseDate(d[0]),
-                  close: d[1]
-               };
-                
-             });
-          
-           //var nim ;
-           var margin = {top: 30, right: 40, bottom: 110, left: 40},
-            margin2 = {top: 3, right: 40, bottom: 20, left: 40},
-            width = 485 - margin.left - margin.right,
-            width2 = 540- margin2.left - margin2.right,
-            height = 370 - margin.top - margin.bottom,
+            height = 390 - margin.top - margin.bottom,
             height2 = 40 - margin2.top - margin2.bottom;
 
            var x = d3.time.scale().range([0, width]),
@@ -914,6 +220,366 @@ function createLayer(file,lablename,ind,base){
                .attr("font-size", "13px")
                .text(ind+" in 1970-2099");
 
+
+           context.append("g")
+            .attr("class", "x grid")
+            .attr("transform", "translate(0," + height2 + ")")
+            .call(d3.svg.axis()
+                .scale(x2)
+                .orient("bottom")
+                .ticks(d3.time.months, 6)
+                .tickSize(-height2)
+                .tickFormat(""))
+            .selectAll(".tick")
+            .classed("minor", function(d) { return d.getHours(); });
+         
+           context.append("path")
+              .datum(data)
+              .attr("class", "area")
+              .attr("d", area2);
+
+           context.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height2 + ")")
+            .call(d3.svg.axis()
+              .scale(x2)
+              .orient("bottom")
+              .ticks(d3.time.years,10)
+              .tickPadding(0))
+            .selectAll("text")
+            .attr("x", 6)
+            .style("text-anchor", null)
+            .call(xAxis2);
+
+           context.append("g")
+            .attr("class", "brush")
+            .call(brush)
+            .call(brush.event)
+            .selectAll("rect")
+            .attr("height", height2);
+          
+          function brushended() {
+           
+            var extent0 = brush.extent(),
+                extent1 = extent0.map(d3.time.year.round);
+                cal_year(extent1,data_plot,ind,name);
+         
+            if (!d3.event.sourceEvent){
+                cal_year(extent1,data_plot,ind,name);
+        	return;
+            } // only transition after input
+
+            // if empty when rounded, use floor & ceil instead
+            if (extent1[0] >= extent1[1]) {
+                extent1[0] = d3.time.year.floor(extent0[0]);
+                extent1[1] = d3.time.year.ceil(extent0[1]);
+             }
+            x.domain(brush.empty() ? x2.domain() : brush.extent());
+            
+            d3.select(this).transition()
+              .call(brush.extent(extent1))
+              .call(brush.event)
+              .call(endAll, function () {
+               
+              });
+             
+            zoom.x(x);
+          }
+
+          function endAll (transition, callback) {
+            var n;
+
+            if (transition.empty()) {
+                callback();
+            }
+            else {
+                n = transition.size();
+                transition.each("end", function () {
+                    n--;
+                    focus.select(".x.axis").call(xAxis);
+                    if (n === 0) {
+                        focus.select(".area").attr("d", area);
+                        callback();
+                    }
+                });
+            }
+          }
+          function draw() {
+          }
+          
+        }
+        function cal_year(rang_year,data,ind,name_var) {
+             var parseD = d3.time.format("%Y-%b-%d").parse;
+             //document.getElementById("demo").innerHTML = rang_year[0].getFullYear()+","+rang_year[1].getFullYear();
+             start = rang_year[0].getFullYear();
+             end = rang_year[1].getFullYear();   
+             //document.getElementById("demo").innerHTML = data[0];
+             var year = [];
+             var val = [];
+             var year2 = [];
+                  //var mss = data[0];
+              data.forEach(function(d,i) {
+                  year[i] = parseD(d[0]).getFullYear();
+                  val[i] = d[1];
+                  year2[i] = d[0];
+              });
+              
+              e_year = end - start;
+              val_cut = [];
+              dat_cut = [];
+              for(var i = 0;i<val.length;i++){
+                  if(year[i]>=start&&year[i]<end){
+                     val_cut.push(val[i-1]);//start index 0
+                      // val_cut.push(val[i]);//start index 1
+                     dat_cut.push(year2[i-1]);
+                    
+                  }
+              }
+               for(var i = 0;i<val.length;i++){
+                  if(year[i]>=start&&year[i]<end){
+                     val_cut.push(val[i-1]);//start index 0
+                      // val_cut.push(val[i]);//start index 1
+                     dat_cut.push(year2[i-1]);
+                    
+                  }
+              }
+              //------------------------------------------------------
+              val_sum = [];
+              for(var j=0;j<val_cut.length;j++){
+                   val_cut[j] = val_cut[j] ? val_cut[j] : 0.00;
+              }
+              for(var j=0;j<12;j++){
+                   val_sum[j] = 0;
+              }
+              k = 0;
+              count = 0;
+              for(var i = 0;i<e_year;i++){
+        	         for(var j=0;j<12;j++){
+                        val_sum[j] = val_sum[j]+val_cut[j+count];
+                   }
+                   k = k+1;
+                   count = 12*k;
+               }
+              val_avg = [];
+              //----------------------Calculate------------------------------
+              for(var j=0;j<12;j++){
+                    val_avg[j] = val_sum[j]/e_year;
+              }
+              
+              //----------------------append---------------------------
+              var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+              var data_pg = new Array(11);
+              for(var i = 0;i<12;i++){
+                 data_pg[i] = new Array(1);
+                 for(var j=0;j<2;j++){
+                      if(j==0){
+                           data_pg[i][j] = start+"-"+month[i];// 
+                       }else if(j==1){
+                           data_pg[i][j] = val_avg[i];
+                       }
+                 
+                 }
+              }
+             //--------------------Call Plot Graph--------------------
+             //document.getElementById("demo").innerHTML = data_pg;
+             d3.select("#map2").selectAll("svg").remove(); 
+             //document.getElementById("demo").innerHTML = da[[0]];
+             int_chart(data_pg,name_var,ind,start+"-"+(end-1));
+        }
+        function int_chart(mon_plot,name,ind,rang_name) {
+            //d3.selectAll("svg > *").remove();
+            var margin3 = {top: 30, right: 40, bottom: 110, left: 50},
+            width3 = 535 - margin3.left - margin3.right,
+            height3 = 390 - margin3.top - margin3.bottom;
+            var parseD = d3.time.format("%Y-%b").parse;
+            var x3 = d3.time.scale().range([0, width3])
+            var y3 = d3.scale.linear().range([height3, 0]);
+            var xAxis3 = d3.svg.axis().scale(x3).orient("bottom").tickFormat(customTimeFormat);
+            var yAxis3 = d3.svg.axis().scale(y3).orient("left");
+            var line = d3.svg.line()
+            .interpolate("basis")
+            .x(function(d) { return x3(d.date); })
+            .y(function(d) { return y3(d.close); });
+            var svg = d3.select("#map2").append("svg")
+             .attr("width", width3 + margin3.left + margin3.right)
+             .attr("height", height3 + margin3.top + margin3.bottom)
+             .append("g")
+             .attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
+            svg.append("rect")
+             .attr("width", width3)
+             .attr("height", height3)
+             .attr("fill", "#f5f5f0");
+           
+            var data3 = mon_plot.map(function(d) {
+               //document.getElementById("demo").innerHTML = d[0];
+               return {
+                  date: parseD(d[0]),
+                  close: d[1]
+               };
+              
+             });
+             
+             x3.domain(d3.extent(data3, function(d) { return d.date; }));
+             y3.domain(d3.extent(data3, function(d) { return d.close; }));
+         
+            svg.append("path")
+              .datum(data3) 
+              .attr("class", "line")
+              .attr("d", line);
+            svg.append("g")
+               .attr("class", "x axis")
+               .attr("transform", "translate(0," + height3 + ")")
+               .call(xAxis3);
+            svg.append("g")
+               .attr("class", "y axis")
+               .call(yAxis3);
+            svg.append("text")
+               .attr("transform", "rotate(-90)")
+               .attr("x", -(height3/2))
+               .attr("y",-35 )
+               .style("font-family", "sans-serif")
+               .style("fill", "#e60000")
+               .style("text-anchor", "middle")
+               .text(name);
+            svg.append("text")
+               .attr("x", width3+20)
+               .attr("y", height3+5 )
+               .style("font-family", "sans-serif")
+               .style("fill", "#e60000")
+               .style("text-anchor", "middle")
+               .text("month");
+            svg.append("text")
+               .attr("x", width3/2 )
+               .attr("y", -10 )
+               .style("fill", "#000033")
+               .style("font-family", "sans-serif")
+               .style("text-anchor", "middle")
+               .attr("font-size", "12px")
+               .text(ind+" in Jan-Dec of "+rang_name);
+        }
+
+        function chart_clim(data_plot,name,ind) {
+            var parseDate = d3.time.format("%Y").parse;
+           
+            var data = data_plot.map(function(d) {
+               return {
+                  date: parseDate(d[0]),
+                  close: d[1]
+               };
+                
+             });
+          
+           //var nim ;
+           var margin = {top: 30, right: 40, bottom: 110, left: 40},
+            margin2 = {top: 3, right: 40, bottom: 20, left: 40},
+            width = 540 - margin.left - margin.right,
+            width2 = 540- margin2.left - margin2.right,
+            height = 390 - margin.top - margin.bottom,
+            height2 = 40 - margin2.top - margin2.bottom;
+
+           var x = d3.time.scale().range([0, width]),
+            x2 = d3.time.scale()
+            .domain(d3.extent(data, function(d) { return d.date; }))
+            .range([0, width]);
+
+           var y = d3.scale.linear().range([height, 0]),
+               y2 = d3.scale.linear().range([height2, 0]);
+           var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(customTimeFormat),
+               xAxis2 = d3.svg.axis().scale(x2).orient("bottom");
+           var yAxis = d3.svg.axis().scale(y).orient("left");
+            
+           var brush = d3.svg.brush()
+            .x(x2)
+            .extent(d3.extent(data, function(d) { return d.date; }))
+            .on("brushend", brushended);
+            //.on("brushend", brusher2);
+
+           var area = d3.svg.area()
+            .interpolate("monotone")
+            .x(function(d) { return x(d.date); })
+            .y0(height)
+            .y1(function(d) { return y(d.close); });
+
+           var area2 = d3.svg.area()
+            .interpolate("monotone")
+            .x(function(d) { return x2(d.date); })
+            .y0(height2)
+            .y1(function(d) { return y2(d.close); });
+
+           var svg = d3.select("#map").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+
+           var svg2 = d3.select("#map3").append("svg")
+            .attr("width", width2 + margin2.left + margin2.right)
+            .attr("height", height2 + margin2.top + margin2.bottom);
+            
+          svg.append("defs").append("clipPath")
+             .attr("id", "clip")
+             .append("rect")
+             .attr("width", width)
+             .attr("height", height);
+           
+          var focus = svg.append("g")
+             .attr("class", "focus")
+             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+           
+          var context = svg2.append("g")
+             .attr("class", "context")
+             .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+          
+
+           var zoom = d3.behavior.zoom().on("zoom", draw);
+
+           var rect = svg.append("svg:rect")
+              .attr("class", "pane")
+              .attr("width", width)
+              .attr("height", height)
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+              .call(zoom);
+            
+           x.domain(d3.extent(data, function(d) { return d.date; }));
+           y.domain(d3.extent(data, function(d) { return d.close; }));
+           x2.domain(x.domain());
+           y2.domain(y.domain());
+
+           //zoom.x(x);
+            focus.append("path")
+              .datum(data)
+              .attr("class", "area")
+              .attr("d", area);
+            focus.append("g")
+               .attr("class", "x axis")
+               .attr("transform", "translate(0," + height + ")")
+               .call(xAxis);
+            focus.append("g")
+               .attr("class", "y axis")
+               .call(yAxis);
+            focus.append("text")
+               .attr("transform", "rotate(-90)")
+               .attr("x", -(height/2))
+               .attr("y",-30 )
+               .style("font-family", "sans-serif")
+               .style("fill", "#e60000")
+               .style("text-anchor", "middle")
+               .text(name);
+            focus.append("text")
+               .attr("x", width+20)
+               .attr("y", height+5 )
+               .style("font-family", "sans-serif")
+               .style("fill", "#e60000")
+               .style("text-anchor", "middle")
+               .text("years");
+
+            focus.append("text")
+               .attr("x", (width/2) )
+               .attr("y", -10 )
+               .style("fill", "#000033")
+               .style("font-family", "sans-serif")
+               .style("text-anchor", "middle")
+               .attr("font-size", "15px")
+               .text(ind+" in 1970-2099");
+
            context.append("g")
             .attr("class", "x grid")
             .attr("transform", "translate(0," + height2 + ")")
@@ -1006,7 +672,7 @@ function createLayer(file,lablename,ind,base){
         //select Temp or Prec -----------------------------
 
                function displayVals() {
-                     var variable = $( "#vars" ).val();
+          	         var variable = $( "#vars" ).val();
                      var index_val = $( "#index" ).val();
                      var cind = $( "#cindex" ).val();
                      //$( "p#demo" ).html( "<b>var:</b> " + variable +"<b>ind:</b> " + cind);
@@ -1026,7 +692,7 @@ function createLayer(file,lablename,ind,base){
                           interac_chart(tem_avg,"Temperature (°C)",'Average Temperature (°C)');
                           SelectIndex(x,'avg');
                           
-                      }else if(x==2&&y=='avg'){
+        	            }else if(x==2&&y=='avg'){
                           d3.select("#map").selectAll("svg").remove();
                           d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
@@ -1034,71 +700,71 @@ function createLayer(file,lablename,ind,base){
                           SelectIndex(x,'avg');
                       }else if(x==1&&y=='min'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(tem_min,"Temperature (°C)",'Minimum Temperature (°C)');
                           SelectIndex(x,'min');
                       }else if(x==2&&y=='min'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           SelectIndex(x,'min');
                           interac_chart(pre_min,"Precipitation (mm)",'Minimum Precipitation (mm)');
                       }else if(x==1&&y=='max'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           SelectIndex(x,'max');
                           interac_chart(tem_max,"Temperature (°C)",'Maximum Temperature (°C)');
                       }else if(x==2&&y=='max'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           SelectIndex(x,'max');
                           interac_chart(pre_max,"Precipitation (mm)",'Maximum Precipitation (mm)');
                       }else if(x==1&&y=='txx'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(txx,"Temperature (°C)",'Monthly maximum value of daily maximum temperature');
                       }else if(x==1&&y=='tnx'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(tnx,"Temperature (°C)",'Monthly maximum value of daily minimum temperature');
                       }else if(x==1&&y=='txn'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(txn,"Temperature (°C)",'Monthly minimum value of daily maximum temperature');
                       }else if(x==1&&y=='tnn'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(tnn,"Temperature (°C)",'Monthly minimum value of daily minimum temperature');
                       }else if(x==1&&y=='tn10p'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(tn10p,"Percentage (%)",'Percentage of days when TN < 10th percentile');
                       }else if(x==1&&y=='tx10p'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(tx10p,"Percentage (%)",' Percentage of days when TX < 10th percentile');
                       }else if(x==1&&y=='tn90p'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(tn90p,"Percentage (%)",' Percentage of days when TN > 90th percentile');
                       }else if(x==1&&y=='tx90p'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(tx90p,"Percentage (%)",' Percentage of days when TX > 90th percentile');
                       }else if(x==2&&y=='rx1day'){
                           d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
+        		              d3.select("#map2").selectAll("svg").remove();
                           d3.select("#map3").selectAll("svg").remove();
                           interac_chart(rx1day,"Precipitation (mm)",' Monthly maximum 1-day precipitation');
                       }else if(x==2&&y=='rx5day'){
@@ -1193,27 +859,3 @@ function createLayer(file,lablename,ind,base){
                           chart_clim(prcptot,"mm",' Annual total precipitation in wet days');
                       };
                }
- </script>
-
-        <footer>
-            <!-- D3.js -->
-            <script src="http://d3js.org/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
-            <!-- Json -->
-            <script src="http://d3js.org/topojson.v1.min.js" type="text/javascript"></script>
-            <!-- D3 geo projection -->
-            <script src="http://d3js.org/d3.geo.projection.v0.min.js" type="text/javascript"></script>
-
-            <!-- tile.js -->
-            <script src="http://bl.ocks.org/emeeks/raw/f3105fda25ff785dc5ed/tile.js" type="text/javascript">
-            </script>
-            <script src="http://bl.ocks.org/emeeks/raw/f3105fda25ff785dc5ed/d3.quadtiles.js" type="text/javascript">
-            </script>
-            <script src="http://bl.ocks.org/emeeks/raw/f3105fda25ff785dc5ed/d3.geo.raster.js" type="text/javascript">
-            </script>
-            <!-- D3 carto map -->
-            <script src="https://rawgit.com/emeeks/d3-carto-map/master/d3.carto.map.js" type="text/javascript">
-            </script>
-            <script src="http://d3js.org/colorbrewer.v1.min.js" charset="utf-8" type="text/javascript"></script>
-        </footer>
-  </body>
-</html>

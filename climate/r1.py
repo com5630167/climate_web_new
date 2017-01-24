@@ -99,7 +99,7 @@ cdd <- function(file_name){
 }
 cwd <- function(file_name){
   ci_mydata <- mdata(file_name)
-  cwd_mydata <- climdex.cwd(ci_mydata)
+  cwd_mydata <- climdex.cwd(ci_mydata,spells.can.span.years = FALSE)
   cwd_mydata[is.na(cwd_mydata)] <- 0
   return(cwd_mydata)
 }
