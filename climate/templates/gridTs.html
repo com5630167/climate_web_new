@@ -8,27 +8,33 @@
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-responsive.min.css' %}">
   <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  
 
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  
   <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/page.css' %}" />
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
+
   <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <!--script src="http://code.jquery.com/jquery-2.1.4.min.js"></script-->
   <script src="{% static 'node_modules/topojson/node_modules/d3/d3.js' %}"></script>
   <script src="{% static 'node_modules/d3-geo-projection/d3.geo.projection.js' %}"></script>
   <script src="{% static 'node_modules/topojson/build/topojson.js' %}"></script>
 
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css' rel='stylesheet' type='text/css'/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+
   <style type="text/css">  
         svg {
           font: 10px sans-serif;
         }
         .area {
-          fill: #ff99dd;
+          fill: #80aaff;
           clip-path: url(#clip);
         }
         .axis path,
@@ -65,7 +71,7 @@
         }
         .line{
            fill: none;
-           stroke: #64B98C;
+           stroke:  #80aaff;
            stroke-width: 2px;
         }
         .button {
@@ -74,6 +80,30 @@
         .p {
            color: #595959;
         }
+
+        .legend {
+          line-height: 18px;
+          color: #555;
+        }
+        .legend i {
+          width: 18px;
+          height: 18px;
+          float: left;
+          margin-right: 8px;
+          opacity: 0.7;
+        }
+        .infoL {
+          padding: 6px 8px;
+          /*font: 14px/16px Arial, Helvetica, sans-serif;*/
+          background: white;
+          background: rgba(255,255,255,0.8);
+          box-shadow: 0 0 15px rgba(0,0,0,0.2);
+          border-radius: 5px;
+        }
+        .infoL h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }         
               
            
   </style>
@@ -100,314 +130,233 @@
         <div class="span1" id = "map_p"></div>
 
         <!--div class="span3" id = "slider-4"></div-->
-        <div class="span4" id = "map"></div>
+        <div class="span2" id = "map"></div>
+        <div class="span3" id = "des_map"></div>
+
         <div class="span5" id = "map2"></div>
 
         <div class="span10" id = "tool">
-            <form acton=""method="POST">
-            {% csrf_token %}
-            <p>
+           <div class="span8" id="tool_area1">
                  <label for="lon" id="lable_lon">lon range:</label>
                  <input name="lon1" type="text" id="lon">
                  <input name="lon2" type="text" id="lon2">
-            </p>
-            <p>
-                 <label for="lat" id="lable_lat">
-                  lat range:</label>
+                 <label for="lat" id="lable_lat">lat range:</label>
                  <input name="lat1" type="text" id="lat">
                  <input name="lat2" type="text" id="lat2">
-            </p>
             <input Type="submit" name="submit" id="submit" value="save" class="button">
-            </form>
-
+           </div>
            <div class="span9" id="tool_area2">
-                 <label for="vars" id="lable_vars">variable</label>
-                 <select class="selectpicker"id="vars" style="color:gray">
-                    <option value="1">Temperature</option>
+                 <label for="vars" id="lable_vars">variable:</label>
+                 <select class="selectpicker"id="vars" style="color:gray" onchange="ChangeCarList()">
+                    <option value="1" selected>Temperature</option>
                     <option value="2">Precipitation </option>
                  </select>
-                 <label for="cindex" id="lable_index">critical index</label>
+                 <label for="cindex" id="lable_index">climate index:</label>
                  <select id="cindex" style="color:gray">
-                    <option value="su">SU</option>
-                    <option value="fd">FD</option>
-                    <option value="id">ID</option>
-                    <option value="tr">TR</option>
-                    <option value="gsl">GSL</option>
-                    <option value="wsdi">WSDI</option>
-                    <option value="csdi">CSDI</option>
-                    <option value="dtr">DTR</option>
-                    <option value="txx">Txx</option>
-                    <option value="tnx">Tnx</option>
-                    <option value="txn">Txn</option>
-                    <option value="tnn">Tnn</option>
-                    <option value="tn10p">Tn10p</option>
-                    <option value="tx10p">Tx10p</option>
-                    <option value="tn90p">Tn90p</option>
-                    <option value="tx90p">Tx90p</option>
-                    <option value="pre">-----Precip-----</option>
-                    <option value="rx1day">Rx1day</option>
-                    <option value="rx5day">Rx5day</option>
-                    <option value="sdii">SDII</option>
-                    <option value="r10mm">R10mm</option>
-                    <option value="r20mm">R20mm</option>
-                    <option value="rnnmm">Rnnmm</option>
-                    <option value="cdd">CDD</option>
-                    <option value="cwd">CWD</option>
-                    <option value="r95ptot">R95ptot</option>
-                    <option value="r99ptot">R99ptot</option>
-                    <option value="prcptot">Prcptot</option>
-                  </select>
-                   <label for="map3" id="lable_map3">Years</label>
-                   <div class="span11" id = "map3"></div>
-                  
-           </div>
-
-           
+                    <option value="su">su</option>
+                    <option value="fd">fd</option>
+                    <option value="id">id</option>
+                    <option value="tr">tr</option>
+                    <option value="gsl">gsl</option>
+                    <option value="wsdi">wdsi</option>
+                    <option value="csdi">csdi</option>
+                    <option value="dtr">dtr</option>
+                    <option value="txx">txx</option>
+                    <option value="tnx">tnx</option>
+                    <option value="txn">txn</option>
+                    <option value="tnn">tnn</option>
+                    <option value="tn10p">tn10p</option>
+                    <option value="tx10p">tx10p</option>
+                    <option value="tn90p">tn90p</option>
+                    <option value="tx90p">tx90p</option>
+                </select>
+                  <div class="span7" id = "tool_area3">
+                    <label for="map3" id="lable_map3">Years:</label>
+                    <div class="span11" id = "map3"></div>
+                  </div>  
+           </div>   
         </div>
        
-        <div class="span6" id = "slider-4"></div>
-        <div id = "slider-3"></div>
-       
+        <!--div class="span6" id = "slider-4"></div-->
+        <!--div id = "slider-3"></div-->
 
       </div>
     </div>
- <script type="text/javascript">
-    //------------Select lat lng ---------------
-         var lon = {{lon|safe}}
-         var lat = {{lat|safe}}
-         var lon1 = {{lon1_g|safe}}
-         var lon2 = {{lon2_g|safe}}
-         var lat1 = {{lat1_g|safe}}
-         var lat2 = {{lat2_g|safe}}
-         val_cut = []
-        //------------Avg year---------------
-           var tem_avg = {{dat|safe}}
-           var pre_avg = {{per_y|safe}}
-        //------------min year---------------
-           var tem_min = {{min_t|safe}}
-           var pre_min = {{min_p|safe}}
-        //------------max year---------------
-           var tem_max = {{max_t|safe}}
-           var pre_max = {{max_p|safe}}
-        //------------Climdex-----------------
-           var txx = {{TXX|safe}}
-           var tnx = {{TNX|safe}}
-           var txn = {{TXN|safe}}
-           var tnn = {{TNN|safe}}
-           var tn10p = {{Tn10p|safe}}
-           var tx10p = {{Tx10p|safe}}
-           var tn90p = {{Tn90p|safe}}
-           var tx90p = {{Tx90p|safe}}
-           var rx1day = {{Rx1day|safe}}
-           var rx5day = {{Rx5day|safe}}
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+  <!--label-->
+  <!--script src="http://code.jquery.com/jquery-2.1.0.min.js"></script-->
+  <script src="{% static 'map/L.D3SvgOverlay.min.js' %}"></script>
+  <script src="{% static 'map/vitualLf.js' %}"></script>
 
-           var su = {{SU|safe}}
-           var fd = {{FD|safe}}
-           var id = {{ID|safe}}
-           var tr = {{TR|safe}}
-           var gsl = {{GSL|safe}}
-           var wsdi = {{WSDI|safe}}
-           var csdi = {{CSDI|safe}}
-           var dtr = {{DTR|safe}}
-           var sdii = {{SDII|safe}}
-           var r10mm = {{R10mm|safe}}
-           var r20mm = {{R20mm|safe}}
-           var rnnmm = {{Rnnmm|safe}}
-           var cdd = {{CDD|safe}}
-           var cwd = {{CWD|safe}}
-           var r95ptot = {{R95ptot|safe}}
-           var r99ptot = {{R99ptot|safe}}
-           var prcptot = {{Prcptot|safe}}
+  <script type="text/javascript">
+      var carsAndModels = {};
+      carsAndModels['1'] = ['su', 'fd', 'id','tr','gsl','wsdi','csdi','dtr','txx','tnx','txn','tnn','tn10p','tx10p','tn90p','tx90p'];
+      carsAndModels['2'] = ['rx1day', 'rx5day', 'sdii', 'r10mm','r20mm','rnnmm','cdd','cwd','r95ptot','r99ptot','prcptot'];
+    
+      function ChangeCarList() {
+          var carList = document.getElementById("vars");
+          var modelList = document.getElementById("cindex");
+          var selCar = carList.options[carList.selectedIndex].value;
+          while (modelList.options.length) {
+              modelList.remove(0);
+          }
+          var cars = carsAndModels[selCar];
+          if (cars) {
+              var i;
+              for (i = 0; i < cars.length; i++) {
+                  var car = new Option(cars[i], i);
+                  modelList.options.add(car);
+              }
+          }
+      } 
 
- ///////////////////////////////////////////////////////////////////////////
-//////////////////// Funtuon Make Map Carto and Layer /////////////////////
-///////////////////////////////////////////////////////////////////////////
-function makeBaseMaps() {
-
-    indColor = 0;
-    IndexLayer = [];
-    labelname = "TempMax";
-    base = [0,1,2];
-    IndexState = $( "#index" ).val();
-
-    mapP = d3.carto.map();
-    d3.select("#map_p").call(mapP);
-    mapP.centerOn([114,8],"latlong");
-    mapP.setScale(3);
-
-
-    SelectIndex(IndexState)
-    createLayer(indState,labelname,indColor,base[0]);
-    //map.addCartoLayer(wcLayer).addCartoLayer(TemperatureMax);
-
-    //createLayer(indState,labelname,indColor,base[1]);
-    mapP.refresh();
-    //legenColor();
-    IndexState = 0;
-
-//d3.select("#buttons").append("button").html("Delete a Random Data Layer").on("click", deleteRandomDataLayer)
-//d3.select("vars").html(this.value).on("click", deleteRandomDataLayer)
-
-}
-///////////////////////////////////////////////////////////////////////////
-//////////////////// Function Select Index ////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-function updatDataLayer(){
-    //d3.select("#map").selectAll("svg").remove();
-   // var colorLayer;
-   // colorLayer.
-
-}
-
-///////////////////////////////////////////////////////////////////////////
-//////////////////// Function Select Index ////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-function SelectIndex(IndexState){
-    if (IndexLayer.length > 0){
-        mapP.deleteCartoLayer(newSelectIndexLayer);
-        mapP.refresh();
-    };
-    if (IndexState=='avg'){
-        indState = "../static/data/geoTsPrAvg.json";
-        labelname = "TempAvg";
-    }else if(IndexState=='min'){
-        indState = "../static/data/geoTsPrMin.json";
-        labelname = "TempMin";
-    }else if(IndexState=='max'){
-        indState = "../static/data/geoTsPrMax.json";
-        labelname = "TempMax";
-    }
-    createLayer(indState,labelname,0,1);
-};
-
-function deleteLayer(layername){
-    mapP.deleteCartoLayer(layername);
-    mapP.refresh();
-}
-
-///////////////////////////////////////////////////////////////////////////
-//////////////////// Function Create Layear ///////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-function createLayer(file,lablename,ind,base){
-   var regionColor = d3.scale.quantize().domain([-10,50]).range(coloursRainbow)
-   if (base==0){
-      waterlayer = d3.carto.layer.tile();
-      waterlayer
-       .tileType("cartodb")
-       .path("light_all")
-       .label("Base")
-       .visibility(true)
-      mapP.addCartoLayer(waterlayer);
-    }else if(base==1){
-      newSelectIndexLayer = d3.carto.layer.geojson();
-      newSelectIndexLayer
-       .path(file)
-       .renderMode("canvas")
-       .label(lablename)
-       .cssClass("region")
-       .clickableFeatures(true)
-       .markerColor(function(d) {return regionColor(d.properties.ts[ind])})
-       //.on("load", colorByGDP)
-       .visibility(true);
-      mapP.addCartoLayer(newSelectIndexLayer);
-      IndexLayer.push(newSelectIndexLayer);
-    };  
-
-    function colorByGDP() {
-      d3.selectAll("path.region").style("fill", function(d) {return regionColor(d.properties.ts[ind])})
-    }
-};
-///////////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////
 //////////////////// Plot Graph Average Max Min ///////////////////////////
 /////////////////////////////////////////////////////////////////////////// 
-
-        // function longitude ---------------
-
-        //document.getElementById("demo3").innerHTML = gsl;
-
-        //For getting CSRF token
-         /* function getCookie(name) {
-                 var cookieValue = null;
-                 if (document.cookie && document.cookie != '') {
-                   var cookies = document.cookie.split(';');
-                   for (var i = 0; i < cookies.length; i++) {
-                   var cookie = jQuery.trim(cookies[i]);
-                   // Does this cookie string begin with the name we want?
-                   if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                       break;
-                    }
-               }
-           }
-           return cookieValue;
+        function getCookie(name) {
+               var cookieValue = null;
+               if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                 var cookie = jQuery.trim(cookies[i]);
+                 // Does this cookie string begin with the name we want?
+                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                     break;
+                  }
+             }
+         }
+         return cookieValue;
+        }
+        function data(data,index,vars){
+             // document.getElementById("map_p").innerHTML = index+data['path_file'];
+             d3.select("#map").selectAll("svg").remove();
+             d3.select("#map2").selectAll("svg").remove();
+             d3.select("#map3").selectAll("svg").remove();
+             document.getElementById("des_map").innerHTML = "";
+             select_var(data['path_file'],vars,index);
+        }
+        function select_var(data,x,y){
+                       //document.getElementById("demo").innerHTML = z;
+                     if(x==1&&y=='txx'){
+                        interac_chart(data,"Temperature (°C)",'Monthly maximum value of daily maximum temperature');
+                        document.getElementById("des_map").innerHTML = "Monthly maximum value of daily maximum temperature:Let TXx be the daily maximum temperatures in month k, period j. The maximum daily maximum temperature each month is then: TXxkj=max(TXxkj) ";
+                      }else if(x==1&&y=='tnx'){
+                        interac_chart(data,"Temperature (°C)",'Monthly maximum value of daily minimum temperature');
+                        document.getElementById("des_map").innerHTML = "Monthly maximum value of daily minimum temperature:Let TNx be the daily minimum temperatures in month k, period j. The maximum daily minimum temperature each month is then:TNxkj=max(TNxkj) ";
+                      }else if(x==1&&y=='txn'){
+                        interac_chart(data,"Temperature (°C)",'Monthly minimum value of daily maximum temperature');
+                        document.getElementById("des_map").innerHTML = "Monthly minimum value of daily maximum temperature:Let TXn be the daily maximum temperatures in month k, period j. The minimum daily maximum temperature each month is then: TXnkj=min(TXnkj) ";
+                      }else if(x==1&&y=='tnn'){
+                        interac_chart(data,"Temperature (°C)",'Monthly minimum value of daily minimum temperature');
+                        document.getElementById("des_map").innerHTML = "Monthly minimum value of daily minimum temperature: Let TNn be the daily minimum temperatures in month k, period j. The minimum daily minimum temperature each month is then: TNnkj=min(TNnkj) ";
+                      }else if(x==1&&y=='tn10p'){
+                        interac_chart(data,"Percentage (%)",'Percentage of days when TN < 10th percentile');
+                        document.getElementById("des_map").innerHTML = "Percentage of days when TN < 10th percentile : Let TNij be the daily minimum temperature on day i in period j and let TNin10 be the calendar day 10th percentile centred on a 5-day window for the base period 1961-1990. The percentage of time for the base period is determined where: TNij < TNin10 ";
+                      }else if(x==1&&y=='tx10p'){
+                        interac_chart(data,"Percentage (%)",' Percentage of days when TX < 10th percentile');
+                        document.getElementById("des_map").innerHTML = "Percentage of days when TX < 10th percentile : Let TXij be the daily maximum temperature on day i in period j and let TXin10 be the calendar day 10th percentile centred on a 5-day window for the base period 1961-1990. The percentage of time for the base period is determined where: TXij < TXin10 ";
+                      }else if(x==1&&y=='tn90p'){
+                        interac_chart(data,"Percentage (%)",' Percentage of days when TN > 90th percentile');
+                        document.getElementById("des_map").innerHTML = "Percentage of days when TN > 90th percentile : Let TNij be the daily minimum temperature on day i in period j and let TNin90 be the calendar day 90th percentile centred on a 5-day window for the base period 1961-1990. The percentage of time for the base period is determined where: TNij > TNin90 ";
+                      }else if(x==1&&y=='tx90p'){
+                        interac_chart(data,"Percentage (%)",' Percentage of days when TX > 90th percentile');
+                        document.getElementById("des_map").innerHTML = "Percentage of days when TX > 90th percentile : Let TXij be the daily maximum temperature on day i in period j and let TXin90 be the calendar day 90th percentile centred on a 5-day window for the base period 1961-1990. The percentage of time for the base period is determined where: TXij > TXin90 ";
+                      }else if(x==2&&y=='rx1day'){
+                        interac_chart(data,"Precipitation (mm)",' Monthly maximum 1-day precipitation');
+                        document.getElementById("des_map").innerHTML = "Monthly maximum 1-day precipitation:Let RRij be the daily precipitation amount on day i in period j. The maximum 1-day value for period j are: Rx1dayj = max (RRij) ";
+                      }else if(x==2&&y=='rx5day'){
+                        interac_chart(data,"Precipitation (mm)",' Monthly maximum consecutive 5-day precipitation');
+                        document.getElementById("des_map").innerHTML = "Monthly maximum consecutive 5-day precipitation: Let RRkj be the precipitation amount for the 5-day interval ending k, period j.Then maximum 5-day values for period j are: Rx5dayj = max (RRkj) ";
+                      }else if(x==1&&y=='su'){
+                        chart_clim(data,"days",' Number of summer days');
+                        document.getElementById("des_map").innerHTML = "Number of summer days: Annual count of days when TX (daily maximum temperature) > 25 Celsius.Let TXij be daily maximum temperature on day i in year j. Count the number of days where:TXij > 25 Celsius.";
+                      }else if(x==1&&y=='fd'){
+                        chart_clim(data,"days",' Number of frost days');
+                        document.getElementById("des_map").innerHTML = "Number of frost days: Annual count of days when TN (daily minimum temperature) < 0 Celsius.Let TNijbe daily minimum temperature on day i in year j. Count the number of days where:TNij < 0 Celsius.";
+                      }else if(x==1&&y=='id'){
+                        chart_clim(data,"days",' Number of icing days');
+                        document.getElementById("des_map").innerHTML = "Number of icing days: Annual count of days when TX (daily maximum temperature) < 0 Celsius.Let TXijbe daily maximum temperature on day i in year j. Count the number of days where:TXij < 0 Celsius.";
+                      }else if(x==1&&y=='tr'){
+                        chart_clim(data,"days",' Number of tropical nights');
+                        document.getElementById("des_map").innerHTML = "Number of tropical nights: Annual count of days when TN (daily minimum temperature) > 20 Celsius.Let TNijbe daily minimum temperature on day i in year j. Count the number of days where:TNij > 20 Celsius.";
+                      }else if(x==1&&y=='gsl'){
+                        chart_clim(data,"days",' Growing season length');
+                        document.getElementById("des_map").innerHTML = "Growing season length: Annual (1st Jan to 31st Dec in Northern Hemisphere (NH), 1st July to 30th June in Southern Hemisphere (SH)) count between first span of at least 6 days with daily mean temperature TG>5 Celsius and first span after July 1st (Jan 1st in SH) of 6 days with TG<5 Celsius.Let TGij be daily mean temperature on day i in year j.Count the number of days between the first occurrence of at least 6 consecutive days with:TGij > 5 Celsius. and the first occurrence after 1st July (1st Jan. in SH) of at least 6 consecutive days with:TGij < 5 Celsius.  ";
+                      }else if(x==1&&y=='wsdi'){
+                        chart_clim(data,"days",' Warm spell duration index');
+                        document.getElementById("des_map").innerHTML = "Warm spell duration index: Annual count of days with at least 6 consecutive days when TX > 90th percentile Let TXij be the daily maximum temperature on day i in period j and let TXin90 be the calendar day 90th percentile centred on a 5-day window for the base period 1961-1990. Then the number of days per period is summed where, in intervals of at least 6 consecutive days: TXij > TXin90 ";
+                      }else if(x==1&&y=='csdi'){
+                        chart_clim(data,"days",' Cold spell duration index');
+                        document.getElementById("des_map").innerHTML = "Cold spell duration index: Annual count of days with at least 6 consecutive days when TN < 10th percentile Let TNij be the daily maximum temperature on day i in period j and let TNin10 be the calendar day 10th percentile centred on a 5-day window for the base period 1961-1990. Then the number of days per period is summed where, in intervals of at least 6 consecutive days: TNij < TNin10 ";
+                      }else if(x==1&&y=='dtr'){
+                        interac_chart(data,"Temperature (°C)",' Daily temperature range');
+                        document.getElementById("des_map").innerHTML = "Daily temperature range: Monthly mean difference between TX and TN Let TXij and TNij be the daily maximum and minimum temperature respectively on day i in period j.  If I represents the number of days in j, then: DTR = sum(TXij - TNij)/ I";
+                      }else if(x==2&&y=='sdii'){
+                        chart_clim(data,"mm/day",' Simple precipitation intensity index');
+                        document.getElementById("des_map").innerHTML = "Simple pricipitation intensity index: Let RRwj be the daily precipitation amount on wet days, w (RR ≥ 1mm) in period j. If W represents number of wet days in j, then: sdii = sum(RR)/w";
+                      }else if(x==2&&y=='r10mm'){
+                        chart_clim(data,"days",' Annual count of days when PRCP ≥ 10mm');
+                        document.getElementById("des_map").innerHTML = "Annual count of days when PRCP≥ 10mm: Let RRij be the daily precipitation amount on day i in period j. Count the number of days where: RRij ≥ 10mm ";
+                      }else if(x==2&&y=='r20mm'){
+                        chart_clim(data,"days",' Annual count of days when PRCP ≥ 20mm');
+                        document.getElementById("des_map").innerHTML = "Annual count of days when PRCP≥ 20mm: Let RRij be the daily precipitation amount on day i in period j. Count the number of days where: RRij ≥ 20mm ";
+                      }else if(x==2&&y=='rnnmm'){
+                        chart_clim(data,"days",' Annual count of days when PRCP ≥ nnmm');
+                        document.getElementById("des_map").innerHTML = "Annual count of days when PRCP≥ nnmm, nn is a user defined threshold: Let RRij be the daily precipitation amount on day i in period j. Count the number of days where: RRij ≥ nnmm ";
+                      }else if(x==2&&y=='cdd'){
+                        chart_clim(data,"days",' Maximum length of dry spell');
+                        document.getElementById("des_map").innerHTML = "Maximum length of dry spell, maximum number of consecutive days with RR < 1mm: Let RRij be the daily precipitation amount on day i in period j. Count the largest number of consecutive days where: RRij < 1mm ";
+                      }else if(x==2&&y=='cwd'){
+                        chart_clim(data,"days",' Maximum length of wet spell');
+                        document.getElementById("des_map").innerHTML = "Maximum length of wet spell, maximum number of consecutive days with RR ≥ 1mm: Let RRij be the daily precipitation amount on day i in period j. Count the largest number of consecutive days where: RRij ≥ 1mm ";
+                      }else if(x==2&&y=='r95ptot'){
+                        chart_clim(data,"mm",' Annual total PRCP when RR > 95p');
+                        document.getElementById("des_map").innerHTML = "Annual total PRCP when RR > 95p. Let RRwj be the daily precipitation amount on a wet day w (RR ≥ 1.0mm) in period i and let RRwn95 be the 95th percentile of precipitation on wet days in the 1961-1990 period. If W represents the number of wet days in the period, then: R95pj = sum(RRwj) where RRwj > RRwn95";
+                      }else if(x==2&&y=='r99ptot'){
+                        chart_clim(data,"mm",' Annual total PRCP when RR > 99p');
+                        document.getElementById("des_map").innerHTML = "Annual total PRCP when RR > 99p: Let RRwj be the daily precipitation amount on a wet day w (RR ≥ 1.0mm) in period i and let RRwn99 be the 99th percentile of precipitation on wet days in the 1961-1990 period. If W represents the number of wet days in the period, then: R99pj = sum(RRwj) where RRwj > RRwn99";
+                      }else if(x==2&&y=='prcptot'){
+                        chart_clim(data,"mm",' Annual total precipitation in wet days');
+                        document.getElementById("des_map").innerHTML = "Annual total precipitation in wet days: Let RRij be the daily precipitation amount on day i in period j. If I represents the number of days in j, then : prcptot = sum(RRij)";
+                      };
           }
+        var su = {{SU|safe}}
+        chart_clim(su,"days",' Number of summer days');
+        document.getElementById("des_map").innerHTML = "Number of summer days: Annual count of days when TX (daily maximum temperature) > 25 Celsius.Let TXij be daily maximum temperature on day i in year j. Count the number of days where: TXij > 25 Celsius.";
 
-          $("#sim").change(function (e) {
-                e.preventDefault();
-                var csrftoken = getCookie('csrftoken');
-                var index = $(this).val();
-                $.ajax({
-               url : window.location.href, // the endpoint,commonly same url
-               type : "POST", // http method
-               data : { csrfmiddlewaretoken : csrftoken, 
-               path_file : index
-               }, // data sent with the post request
+        $( "select" ).change(function (e) {
+              e.preventDefault();
+              var csrftoken = getCookie('csrftoken');
+              var index = $("#cindex").val();
+              var variable = $( "#vars" ).val();
+              $.ajax({
+                     url : window.location.href, // the endpoint,commonly same url
+                     type : "POST", // http method
+                     data : { csrfmiddlewaretoken : csrftoken, 
+                     path_file : index
+                   }, // data sent with the post request
 
-               // handle a successful response
-               success : function(json) {
-                    console.log(json); // another sanity check
-                    //On success show the data posted to server as
-                                document.getElementById("demo").innerHTML = json['TXX'];
-                                //alert('Hi '+json['path_file']);
-               },
+                   // handle a successful response
+                   success : function(json) {
+                        console.log(json); // another sanity check
+                        //On success show the data posted to server as
+                                 data(json,index,variable);
+                                    //alert('Hi '+json['path_file']);
+                   },
 
-               // handle a non-successful response
-               error : function(xhr,errmsg,err) {
-                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-               }
+                   // handle a non-successful response
+                   error : function(xhr,errmsg,err) {
+                        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                   }
                });
-               
-          });*/
-
-         $(function() {
-              $( "#slider-3" ).slider({
-                       range:true,
-                       min:lon[0],
-                       max: lon[lon.length-1],
-                       //orientation: "vertical",
-                       values: [ lon1, lon2 ],
-                       slide: function( event, ui ) {
-                          $( "#lon" ).val(ui.values[ 0 ]);
-                          $( "#lon2" ).val(ui.values[ 1 ]);
-                          lon_sel = ui.values[0];
-                       },
-                       stop: function( event, ui ) {
-                            
-                           var lon_1 = ui.values[0];
-                           var lon_2 = ui.values[1];
-                       }
-               });
-            
-               $( "#lon" ).val($( "#slider-3" ).slider( "values", 0 ) );
-               $( "#lon2" ).val($( "#slider-3" ).slider( "values", 1 ) );
-         });
-        // function lattitude ---------------
-         $(function() {
-              $( "#slider-4" ).slider({
-                       range:true,
-                       min:lat[0],
-                       max: lat[lat.length-1],
-                       orientation: "vertical",
-                       values: [ lat1, lat2 ],
-                       slide: function( event, ui ) {
-                          $( "#lat" ).val(ui.values[ 0 ]);
-                          $( "#lat2" ).val(ui.values[ 1 ]);
-                       }
-               });
-               $( "#lat" ).val($( "#slider-4" ).slider( "values", 0 ) );
-               $( "#lat2" ).val($( "#slider-4" ).slider( "values", 1 ) );
-         });
-         var customTimeFormat = d3.time.format.multi([
+             
+        });
+  
+        var customTimeFormat = d3.time.format.multi([
             [".%L", function(d) { return d.getMilliseconds(); }],
             [":%S", function(d) { return d.getSeconds(); }],
             ["%I:%M", function(d) { return d.getMinutes(); }],
@@ -419,7 +368,8 @@ function createLayer(file,lablename,ind,base){
         ]);
         function interac_chart(data_plot,name,ind) {
            var grap_2 = document.getElementById( "map2" );
-           grap_2.style.backgroundColor = "#ffffe6";
+           grap_2.style.backgroundColor = "#F4F4F4";
+           grap_2.style.border = "1px solid #d6d6c2";
            var parseDate = d3.time.format("%Y-%b-%d").parse;
            
             var data = data_plot.map(function(d) {
@@ -431,11 +381,11 @@ function createLayer(file,lablename,ind,base){
              });
           
            //var nim ;
-           var margin = {top: 30, right: 40, bottom: 110, left: 40},
+           var margin = {top: 30, right: 40, bottom: 20, left: 40},
             margin2 = {top: 3, right: 40, bottom: 20, left: 40},
-            width = 485 - margin.left - margin.right,
-            width2 = 540- margin2.left - margin2.right,
-            height = 370 - margin.top - margin.bottom,
+            width = $('#map').width()-margin.left - margin.right;
+            width2 = $('#tool_area3').width() - margin2.left - margin2.right;
+            height = $('#map').height()-margin.top - margin.bottom;
             height2 = 40 - margin2.top - margin2.bottom;
 
            var x = d3.time.scale().range([0, width]),
@@ -711,25 +661,30 @@ function createLayer(file,lablename,ind,base){
                  }
               }
              //--------------------Call Plot Graph--------------------
-             //document.getElementById("demo").innerHTML = data_pg;
+             //document.getElementById("map_p").innerHTML = data_pg;
              d3.select("#map2").selectAll("svg").remove(); 
              //document.getElementById("demo").innerHTML = da[[0]];
              int_chart(data_pg,name_var,ind,start+"-"+(end-1));
         }
         function int_chart(mon_plot,name,ind,rang_name) {
             //d3.selectAll("svg > *").remove();
-            var margin3 = {top: 30, right: 40, bottom: 110, left: 50},
-            width3 = 485 - margin3.left - margin3.right,
-            height3 = 370 - margin3.top - margin3.bottom;
+            var margin3 = {top: 30, right: 40, bottom: 260, left: 50},
+            width3 = $('#map2').width()- margin3.left - margin3.right,
+            height3 = $('#map2').width()- margin3.top - margin3.bottom;
+
             var parseD = d3.time.format("%Y-%b").parse;
-            var x3 = d3.time.scale().range([0, width3])
+
+            var x3 = d3.time.scale().range([0, width3]);
             var y3 = d3.scale.linear().range([height3, 0]);
-            var xAxis3 = d3.svg.axis().scale(x3).orient("bottom").tickFormat(customTimeFormat);
+
+            var xAxis3 = d3.svg.axis().scale(x3).orient("bottom").ticks(d3.time.months, 1).tickFormat(d3.time.format("%b"));
             var yAxis3 = d3.svg.axis().scale(y3).orient("left");
+
             var line = d3.svg.line()
-            .interpolate("basis")
-            .x(function(d) { return x3(d.date); })
-            .y(function(d) { return y3(d.close); });
+                //.interpolate("basis")
+                .x(function(d) { return x3(d.date); })
+                .y(function(d) { return y3(d.close); });
+
             var svg = d3.select("#map2").append("svg")
              .attr("width", width3 + margin3.left + margin3.right)
              .attr("height", height3 + margin3.top + margin3.bottom)
@@ -738,7 +693,7 @@ function createLayer(file,lablename,ind,base){
             svg.append("rect")
              .attr("width", width3)
              .attr("height", height3)
-             .attr("fill", "#f5f5f0");
+             .attr("fill", "#F4F4F4");
            
             var data3 = mon_plot.map(function(d) {
                //document.getElementById("demo").innerHTML = d[0];
@@ -753,9 +708,9 @@ function createLayer(file,lablename,ind,base){
              y3.domain(d3.extent(data3, function(d) { return d.close; }));
          
             svg.append("path")
-              .datum(data3) 
               .attr("class", "line")
-              .attr("d", line);
+              .attr("d", line(data3));
+
             svg.append("g")
                .attr("class", "x axis")
                .attr("transform", "translate(0," + height3 + ")")
@@ -763,10 +718,22 @@ function createLayer(file,lablename,ind,base){
             svg.append("g")
                .attr("class", "y axis")
                .call(yAxis3);
+
+            svg.selectAll("dot")
+                .data(data3)
+                .enter().append("circle")
+                .attr("r", 2.5)
+                .style("fill", "#005580")    
+                .style("opacity", .8)      // set the element opacity
+                .style("stroke", "#f93")    // set the line colour
+                .style("stroke-width", 0.5) 
+                .attr("cx", function(d) { return x3(d.date); })
+                .attr("cy", function(d) { return y3(d.close); });
+
             svg.append("text")
                .attr("transform", "rotate(-90)")
                .attr("x", -(height3/2))
-               .attr("y",-35 )
+               .attr("y",-38 )
                .style("font-family", "sans-serif")
                .style("fill", "#e60000")
                .style("text-anchor", "middle")
@@ -779,7 +746,7 @@ function createLayer(file,lablename,ind,base){
                .style("text-anchor", "middle")
                .text("month");
             svg.append("text")
-               .attr("x", width3/2 )
+               .attr("x", (width3/2)-9 )
                .attr("y", -10 )
                .style("fill", "#000033")
                .style("font-family", "sans-serif")
@@ -804,11 +771,11 @@ function createLayer(file,lablename,ind,base){
              });
           
            //var nim ;
-           var margin = {top: 30, right: 40, bottom: 110, left: 40},
+            var margin = {top: 30, right: 40, bottom: 20, left: 40},
             margin2 = {top: 3, right: 40, bottom: 20, left: 40},
-            width = 485 - margin.left - margin.right,
-            width2 = 540- margin2.left - margin2.right,
-            height = 370 - margin.top - margin.bottom,
+            width = $('#map').width()-margin.left - margin.right;
+            width2 = $('#tool_area3').width() - margin2.left - margin2.right;
+            height = $('#map').height()-margin.top - margin.bottom;
             height2 = 40 - margin2.top - margin2.bottom;
 
            var x = d3.time.scale().range([0, width]),
@@ -912,7 +879,7 @@ function createLayer(file,lablename,ind,base){
                .style("font-family", "sans-serif")
                .style("text-anchor", "middle")
                .attr("font-size", "13px")
-               .text(ind+" in 1970-2099");
+               .text(ind);
 
            context.append("g")
             .attr("class", "x grid")
@@ -959,7 +926,7 @@ function createLayer(file,lablename,ind,base){
          
             if (!d3.event.sourceEvent){
                 //cal_year(extent1,data_plot,ind,name);
-          return;
+                  return;
             } // only transition after input
 
             // if empty when rounded, use floor & ceil instead
@@ -1002,198 +969,8 @@ function createLayer(file,lablename,ind,base){
           }
           
         }
-          
-        //select Temp or Prec -----------------------------
-
-               function displayVals() {
-                     var variable = $( "#vars" ).val();
-                     var index_val = $( "#index" ).val();
-                     var cind = $( "#cindex" ).val();
-                     //$( "p#demo" ).html( "<b>var:</b> " + variable +"<b>ind:</b> " + cind);
-                     //select_var(variable,index_val,cind);
-                     select_var(variable,cind);
-                     legenColor(variable);
-               }
-               $( "select" ).change( displayVals );
-               displayVals();
-             
-               function select_var(x,y){
-                       //document.getElementById("demo").innerHTML = z;
-                      if(x==1&&y=='avg'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tem_avg,"Temperature (°C)",'Average Temperature (°C)');
-                          SelectIndex(x,'avg');
-                          
-                      }else if(x==2&&y=='avg'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(pre_avg,"Precipitation (mm)",'Average Precipitation (mm)');
-                          SelectIndex(x,'avg');
-                      }else if(x==1&&y=='min'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tem_min,"Temperature (°C)",'Minimum Temperature (°C)');
-                          SelectIndex(x,'min');
-                      }else if(x==2&&y=='min'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          SelectIndex(x,'min');
-                          interac_chart(pre_min,"Precipitation (mm)",'Minimum Precipitation (mm)');
-                      }else if(x==1&&y=='max'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          SelectIndex(x,'max');
-                          interac_chart(tem_max,"Temperature (°C)",'Maximum Temperature (°C)');
-                      }else if(x==2&&y=='max'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          SelectIndex(x,'max');
-                          interac_chart(pre_max,"Precipitation (mm)",'Maximum Precipitation (mm)');
-                      }else if(x==1&&y=='txx'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(txx,"Temperature (°C)",'Monthly maximum value of daily maximum temperature');
-                      }else if(x==1&&y=='tnx'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tnx,"Temperature (°C)",'Monthly maximum value of daily minimum temperature');
-                      }else if(x==1&&y=='txn'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(txn,"Temperature (°C)",'Monthly minimum value of daily maximum temperature');
-                      }else if(x==1&&y=='tnn'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tnn,"Temperature (°C)",'Monthly minimum value of daily minimum temperature');
-                      }else if(x==1&&y=='tn10p'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tn10p,"Percentage (%)",'Percentage of days when TN < 10th percentile');
-                      }else if(x==1&&y=='tx10p'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tx10p,"Percentage (%)",' Percentage of days when TX < 10th percentile');
-                      }else if(x==1&&y=='tn90p'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tn90p,"Percentage (%)",' Percentage of days when TN > 90th percentile');
-                      }else if(x==1&&y=='tx90p'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(tx90p,"Percentage (%)",' Percentage of days when TX > 90th percentile');
-                      }else if(x==2&&y=='rx1day'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(rx1day,"Precipitation (mm)",' Monthly maximum 1-day precipitation');
-                      }else if(x==2&&y=='rx5day'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(rx5day,"Precipitation (mm)",' Monthly maximum consecutive 5-day precipitation');
-                      }else if(x==1&&y=='su'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(su,"days",' Number of summer days');
-                      }else if(x==1&&y=='fd'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(fd,"days",' Number of frost days');
-                      }else if(x==1&&y=='id'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(id,"days",' Number of icing days');
-                      }else if(x==1&&y=='tr'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(tr,"days",' Number of tropical nights');
-                      }else if(x==1&&y=='gsl'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(gsl,"days",' Growing season length');
-                      }else if(x==1&&y=='wsdi'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(wsdi,"days",' Warm spell duration index');
-                      }else if(x==1&&y=='csdi'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(csdi,"days",' Cold spell duration index');
-                      }else if(x==1&&y=='dtr'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          interac_chart(dtr,"Temperature (°C)",' Daily temperature range');
-                      }else if(x==2&&y=='sdii'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(sdii,"mm/day",' Simple precipitation intensity index');
-                      }else if(x==2&&y=='r10mm'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(r10mm,"days",' Annual count of days when PRCP ≥ 10mm');
-                      }else if(x==2&&y=='r20mm'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(r20mm,"days",' Annual count of days when PRCP ≥ 20mm');
-                      }else if(x==2&&y=='rnnmm'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(rnnmm,"days",' Annual count of days when PRCP ≥ nnmm');
-                      }else if(x==2&&y=='cdd'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(cdd,"days",' Maximum length of dry spell');
-                      }else if(x==2&&y=='cwd'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(cwd,"days",' Maximum length of wet spell');
-                      }else if(x==2&&y=='r95ptot'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(r95ptot,"mm",' Annual total PRCP when RR > 95p');
-                      }else if(x==2&&y=='r99ptot'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(r99ptot,"mm",' Annual total PRCP when RR > 99p');
-                      }else if(x==2&&y=='prcptot'){
-                          d3.select("#map").selectAll("svg").remove();
-                          d3.select("#map2").selectAll("svg").remove();
-                          d3.select("#map3").selectAll("svg").remove();
-                          chart_clim(prcptot,"mm",' Annual total precipitation in wet days');
-                      };
-               }
- </script>
+       
+  </script>
 
         <footer>
             <!-- D3.js -->
