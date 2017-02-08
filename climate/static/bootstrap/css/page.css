@@ -1,6 +1,6 @@
 body {
    position: relative;
-   background: #ffb744 url(../img/bg-pattern.jpg);
+   background: white;
    font-family: "Times New Roman", Times, serif;
    color:#FFFFFF;
 }
@@ -10,7 +10,7 @@ body {
     margin: 0 auto;
     margin-top: 0%; 
     padding-top: 0%;
-    background: #F4F4F4;
+    background: white;
    -webkit-border-radius: none;
    border-radius: none;
 }
@@ -18,25 +18,25 @@ body {
    background-color:#206040;
    background-image: none;
    border:none;
-   height: 6.2%;
+   height: 5.7%;
 }
 #lable_lon {
-   color:#4d4d4d; position:relative; left: 4%; margin-top: 0%;
+   color:#4d4d4d; position:relative; left: 0%; margin-top: 0%;
    border-radius: 1%; font-size: 10px;
 }
 #lon {
    border:0; background-color: #ccccb3;
-   color:#330000; position:relative; margin-top: 0%; left: 4%; width:8%; font-weight:bold;
-   border-radius: 5px; font-size: 10px;
+   color:#330000; position:relative; margin-top: -5%; left: 10%; width:8.5%; font-weight:bold;
+   border-radius: 5px; font-size: 10px; display: block;
 }
 #lon2 {
    background-color: #ccccb3;
-   border:0; color:#330000; position:relative; margin-top: 0%; left: 4%; width:8.5%; font-weight:bold;
+   border:0; color:#330000; position:relative; margin-top: -4%; left: 15%; width:8.5%; font-weight:bold;
    border-radius: 5px; font-size: 10px;
 }
 #lable_lat {
-   color:#4d4d4d; position:relative; left: 5%;  margin-top: 0%;
-   border-radius: 1%; font-size: 10px;
+   color:#4d4d4d; position:relative; left: 0%;  top: -20%;
+   border-radius: 1%; font-size: 10px; 
 }
 #lat {
    border:0; 
@@ -45,8 +45,8 @@ body {
    font-weight:bold; 
    position:relative; 
    width:8%; 
-   left: 5%; 
-   margin-top:0%;
+   left: 10%; 
+   margin-top:-8.5%;
    border-radius: 5px;
    font-size: 10;
 }
@@ -70,29 +70,29 @@ body {
    width: 10%;
    height: auto;
    position: relative;
-   margin-left: 10%; 
-   margin-top: 0%; 
+   margin-left: 12%; 
+   margin-top: -12%; 
    font-size: 10px;
 }
 #map_p {
-   background-color:#F4F4F4; top: 2%; border:1% solid #d6d6c2;color:#ffffe6;
+   background-color:white; top: 2%; border:1% solid #d6d6c2;color:#ffffe6;
    border-radius: 1%;
    width: 50%;
    height: 43%;
    border: 1% solid black;
    margin: 0 auto;
-   margin-left: 0% ;
+   margin-left: -10% ;
    float:left; position:relative;
    color: black;
    border:1px solid #d6d6c2;
    border-radius: 5px;
 }  
 #map {
-   background-color:#F4F4F4; position:relative; top:2%; margin-left: 3%; width:47%; height:35%; border:1px solid #d6d6c2;
+   background-color:white; position:relative; top:2%; margin-left: 3%; width:47%; height:35%; border:1px solid #d6d6c2;
    border-radius: 5px;
 }
 #map2 {
-   background-color:#F4F4F4; position:relative; margin-left: 53%; top:-3%; width:47%; height:35%; border:1px solid #d6d6c2;
+   background-color:white; position:relative; margin-left: 43%; top:-37%; width:47%; height:30%; border:1px solid #d6d6c2;
    border-radius: 5px;
 }
 #slider-3 {
@@ -114,55 +114,77 @@ body {
    color:#ffffe6;
 }
 #map3 {
-   background-color:none; position:relative; margin-left: -3%; margin-top:1%; width:80%; height:20%; border:0% solid #d6d6c2;
+   background-color:none; position:relative; margin-left: 0%; margin-top:0%; width:80%; height:20%; border:0% solid #d6d6c2;
    border-radius: 1%; color:#330000; 
    font-weight:bold; font-size: 7;
 }
 #tool{
-   background-color:#F4F4F4; position:relative; margin-left: 0%; margin-top:-25%; width:50%; height:20%; border:1% solid #d6d6c2;
+   background-color:white; position:relative; margin-left: -10%; margin-top:0%; width:50%; height:35%; border:1% solid #d6d6c2;
    border-radius: 1%; color:#330000; 
    font-weight:bold; font-size: 7; border:1px solid #d6d6c2;
    border-radius: 5px;
 }
 #tool_area1 {
-   position:relative; left: 1%; width:100%; margin-top:2%; 
-   border-radius: 5px; color:#330000; 
+   background-color: none;
+   position:relative; left: 90%; width:50%; margin-top:-110%; 
+   border-radius: 5px; color:#330000; height: 15;
    font-weight:bold; 
 }
 #tool_area2 {
-   position:relative; left: 1%; width:100%; margin-top:0%; 
-   border-radius: 5px; color:#330000; 
+   background-color: none;
+   position:relative; left: 90%; width:50%; margin-top:-104%; 
+   border-radius: 5px; color:#330000; height: 15;
    font-weight:bold; 
 }
 #tool_area3 {
-   position:relative; left: 0%; width:100%; margin-top:0%; 
-   border-radius: 5px; color:#330000; 
-   font-weight:bold; 
+   background-color: none;
+   position:relative; left: 42%; width:50%; margin-top:-25%; 
+   border-radius: 5px; color:#330000; height: 100%;
+   font-weight:bold;  display: block;
 }
 #vars{
-   width: 20%;
-   font-size: 10px;
-   position:relative; left: 1.5%;
+   max-width: 20%;
+   font-size: 9px;
+   position:relative; left: 8%; margin-top: -5%;
+   max-width: 100%;
+   height: auto;
+   width: auto
 }
 #lable_vars{
-   color:#4d4d4d; position:relative; left: 1.5%; margin-top: 0%;
+   color:#4d4d4d; position:relative; left: 0%; margin-top: 0%;
    border-radius: 1%; font-size: 10px;
 }
 #lable_index{
-   color:#4d4d4d; position:relative; left: 5%; margin-top: 0%;
+   color:#4d4d4d; position:relative; left: 0%; margin-top: 0%;
    border-radius: 1%; font-size: 10px;
 }
 #cindex{
-   width: 20%;
+   max-width: 15%;
    font-size: 10px;
    font-color :black;
-   position:relative; left: 5%;
+   position:relative; left: 13%; margin-top: -5%;
+   height: auto;
+   width: auto
 }
 #lable_map3{
    color:#4d4d4d; position:relative; margin-left: -78%; margin-top: 2%;
    border-radius: 1%; font-size: 10px;
 }
 #des_map{
-   background-color:#F4F4F4; position:relative; top:-6%; margin-left: 53%; width:47%; height:8%; font-size: 13px; font-color:black; color:#4d4d4d; 
+   background-color:white; position:relative; top:-6%; margin-left: 43%; width:47%; height:8%; font-size: 12px; font-color:black; color:#4d4d4d; 
+}
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 

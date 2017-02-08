@@ -25,7 +25,7 @@ def home_page(request):
         if request.is_ajax():
             #Always use get on request.POST. Correct way of querying a QueryDict.
             path_file = request.POST.get('path_file')
-            print(path_file)
+            #print(path_file)
            
             data = {"path_file":getattr(cli, path_file)()}
     
